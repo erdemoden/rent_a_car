@@ -1,6 +1,7 @@
 package com.rentacar.helptool;
 
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
 
 public class HelpTool {
 
@@ -10,12 +11,6 @@ public class HelpTool {
      * Parametreye girilen tema aktif olur
      */
     public static void setTheme(String theme){
-        /*
-        // # Tema Yapıları Sıralar
-        for(UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()){
-            System.out.println(info.getName() + "->" + info.getClassName());
-        }
-        */
         for(UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()){
             if(theme.equals(info.getName())){
                 try {
@@ -32,6 +27,29 @@ public class HelpTool {
             }
         }
     }
+
+    public static void getThemes(){
+        // # Tema Yapıları Sıralar
+        for(UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()){
+            System.out.println(info.getName() + "->" + info.getClassName());
+        }
+    }
+
+    /**
+     * @param textField
+     * Parametreye girilen Text ve Password alanlarının içi
+     * boş ise true, dolu ise false döner
+     */
+    public static boolean isTextFieldEmpty(JTextComponent textField){
+        boolean result = true;
+        if(textField.getText().length() == 0){
+            result = true;
+        }else {
+            result = false;
+        }
+        return result;
+    }
+
 
 
 

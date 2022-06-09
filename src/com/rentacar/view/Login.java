@@ -1,8 +1,9 @@
-package com.rentacar.modul;
+package com.rentacar.view;
 
 
 import com.rentacar.helptool.HelpTool;
 
+import javax.security.auth.spi.LoginModule;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -28,18 +29,15 @@ public class Login extends JFrame{
         // +Window Kısmı
         {
             HelpTool.setTheme("Metal");
-
             add(wrapper);
             // setContentPane(wrapper); // bu add yerine kullanılabilir
             setSize(400, 400);
             setResizable(false);
             setTitle("Giriş Ekranı");
-
             int x = (Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) / 2;
             int y = (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2;
             setLocation(x, y);
             // setLocationRelativeTo(null);  //ekran ORTALA
-
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // ekran kapanınca sonlandır.
             setVisible(true);
             //pack();
@@ -52,8 +50,8 @@ public class Login extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (txtFld_uname.getText().length() == 0 || psswrdFld_password.getText().length() == 0){
-                    JOptionPane.showMessageDialog(null, "Boş değer girdiniz!..", "Uyarı", JOptionPane.WARNING_MESSAGE);
+                if (HelpTool.isTextFieldEmpty(txtFld_uname) || HelpTool.isTextFieldEmpty(psswrdFld_password)){
+                    JOptionPane.showMessageDialog(null, "Boş değer var. Onalrı Düzelt!..", "Uyarı", JOptionPane.WARNING_MESSAGE);
                 }else {
                     JOptionPane.showMessageDialog(null, "Giriş başarılı..", "Başarılı", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -62,6 +60,15 @@ public class Login extends JFrame{
         });
         // -Giriş Butonu
 
+
+        // +Şirket Kayıt Butonu
+        btn_registerCompany.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RegisterOfCompany rgstrCompany = new RegisterOfCompany();
+            }
+        });
+        // -Şirket Kayıt Butonu
 
     }
 
