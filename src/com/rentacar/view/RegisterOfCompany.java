@@ -1,9 +1,9 @@
 package com.rentacar.view;
 
+import com.rentacar.helptool.Config;
 import com.rentacar.helptool.HelpTool;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class RegisterOfCompany extends JFrame{
     private JPanel wrapper;
@@ -18,15 +18,19 @@ public class RegisterOfCompany extends JFrame{
     public RegisterOfCompany() {
 
         // +Ekran
-        {
-            HelpTool.setTheme("Nimbus");
-            setContentPane(wrapper);
-            setLocationRelativeTo(null);
-            setSize(300,400);
-            setTitle("Kayıt Ekranı");
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // ekran kapanınca sonlandır.
-            setVisible(true);
-        }
+        setContentPane(wrapper);
+        HelpTool.setTheme("Metal");
+        setSize(300,400);
+
+        int x = HelpTool.screenCenterAxis("x", getSize());
+        int y = HelpTool.screenCenterAxis("y", getSize());
+        setLocation(x,y);
+
+        // setLocationRelativeTo(null);
+
+        setTitle(Config.APP_TITLE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  // x tuşu.
+        setVisible(true);
         // -Ekran
 
 
