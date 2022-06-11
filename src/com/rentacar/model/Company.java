@@ -1,6 +1,10 @@
 package com.rentacar.model;
 
-import com.rentacar.helptool.HelpTool;
+import com.rentacar.db.DB;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Company {
     private int id;
@@ -9,6 +13,7 @@ public class Company {
     private String name;
     private int city_id;
 
+    public Company(){}
     public Company(int id, String uname, String password, String name, int city_id) {
         this.id = id;
         this.uname = uname;
@@ -55,6 +60,41 @@ public class Company {
 
     public void setCity_id(int city_id) {
         this.city_id = city_id;
+    }
+    // ----------------------------------------------------------------------------------------------------------------
+    /**
+     * veri tabanı doğrulamasından sonra şirket nesnesi aktif olacak
+     */
+    public static Company setCompany(String uname, String password){
+        Company company;
+        String query = "SELECT * FROM company WHERE uname='" + uname + "' AND password='"+ password +"'";
+        try {
+            Statement st = DB.connect().createStatement();
+            ResultSet rs = st.executeQuery(query);
+            if(rs.next()){
+                company = new Company();
+                company.setId(rs.getInt("id"));
+                company.setUname(rs.getString("uname"));
+                company.setPassword(rs.getString("password"));
+                company.setName(rs.getString("name"));
+                company.setCity_id(rs.getInt("city_id"));
+                return company;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Company fakeCompany(){
+        Company comp = new Company();
+        comp.setId(1);
+        comp.setCity_id(34);
+        comp.setUname("kiralikarac");
+        comp.setName("TOLGA OTO KİRALAMA");
+        comp.setPassword("1214");
+
+        return comp;
     }
 
 }

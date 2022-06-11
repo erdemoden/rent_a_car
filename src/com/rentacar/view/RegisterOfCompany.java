@@ -1,7 +1,7 @@
 package com.rentacar.view;
 
-import com.rentacar.helptool.Config;
-import com.rentacar.helptool.HelpTool;
+import com.rentacar.tool.Config;
+import com.rentacar.tool.HelpTool;
 
 import javax.swing.*;
 

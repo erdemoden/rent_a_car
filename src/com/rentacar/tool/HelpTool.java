@@ -1,4 +1,4 @@
-package com.rentacar.helptool;
+package com.rentacar.tool;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
