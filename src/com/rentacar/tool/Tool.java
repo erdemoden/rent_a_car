@@ -5,7 +5,7 @@ import javax.swing.text.JTextComponent;
 import java.awt.*;
 
 // Oluşturulan Yardımcı fonksiyonlar
-public class HelpTool {
+public class Tool {
 
 
     /**
@@ -38,7 +38,6 @@ public class HelpTool {
     }
 
 
-
     /**
      * @param axis
      * @param size
@@ -62,20 +61,46 @@ public class HelpTool {
 
 
     /**
-     * @param textField
+     * @param field
      * Parametreye girilen Text ve Password alanlarının içi
      * boş ise true, dolu ise false döner
      */
-    public static boolean isTextFieldEmpty(JTextComponent textField){
-        boolean result = true;
-        if(textField.getText().length() == 0){
-            result = true;
-        }else {
-            result = false;
-        }
-        return result;
+    public static boolean isFieldEmpty(JTextComponent field){
+        return field.getText().trim().isEmpty();
     }
 
+    /**
+    * @param info
+     * girilen bilgiye göre Dialog penceresi
+     * ile geri bildirim verir.
+     */
+    public static void showDialog(String info){
+        optionPageTR();
+        String msg;
+        String title = "Bilgi";
+        switch (info){
+            case "empty" :
+                msg = "Lütfen boş alanları doldurunuz.";
+                title = "Uyarı";
+                break;
+            case "done" :
+                msg = "İşlem Başarılı";
+                title = "Başarılı";
+                break;
+            case "wrong_info" :
+                msg = "Yanlış veya hatalı giriş yaptınız. Bilgilerinizi kontrol edin.";
+                title = "Hata";
+                break;
+            default:
+                msg = info;
+        }
+        JOptionPane.showMessageDialog(null, msg, title, JOptionPane.WARNING_MESSAGE);
+    }
+
+
+    public static void optionPageTR(){
+        UIManager.put("OptionPane.okButtonText", "Tamam");
+    }
 
 
 

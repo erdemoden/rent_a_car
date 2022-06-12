@@ -64,7 +64,7 @@ public class Cars {
     }
 
     //---------------------------------------------------------------------------------------------------------------
-    public static ArrayList<Cars> fetchCarsByCompany(int company_id){
+    public static ArrayList<Cars> getListByCompany(int company_id){
         ArrayList<Cars> carList = new ArrayList<>();
         String sql = "SELECT id, brand, model, type FROM cars WHERE company_id="+ company_id +"";
 
@@ -74,7 +74,7 @@ public class Cars {
             while(rs.next()){
                 Cars car = new Cars();
                 car.setId(rs.getInt("id"));
-                car.setCompany_id(rs.getInt(company_id));
+                car.setCompany_id(company_id);
                 car.setBrand(rs.getString("brand"));
                 car.setModel(rs.getString("model"));
                 car.setType(rs.getString("type"));

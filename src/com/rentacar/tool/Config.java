@@ -6,7 +6,9 @@ public class Config {
     public static final String DB_USER = "root";
     public static final String DB_PASSWORD = "root";
 
-
     // Sistem için Oluşturduğum sabitler
     public static final String APP_TITLE = "Rent a Car";
+    public static final String USER_CUSTOMER = "Müşteri";
+    public static final String USER_COMPANY = "Şirket";
+
 }
