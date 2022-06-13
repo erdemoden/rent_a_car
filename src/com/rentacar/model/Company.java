@@ -61,9 +61,13 @@ public class Company {
     public void setCity_id(int city_id) {
         this.city_id = city_id;
     }
+
+
+
+
     // ----------------------------------------------------------------------------------------------------------------
     /**
-     * veri tabanı doğrulamasından sonra şirket nesnesi aktif olacak
+     * veri tabanı doğrulamasından sonra şirket girişi aktif olacak
      */
     public static Company setCompany(String uname, String password){
         Company company;
@@ -86,15 +90,7 @@ public class Company {
         return null;
     }
 
-    public static Company fakeCompany(){
-        Company comp = new Company();
-        comp.setId(1);
-        comp.setCity_id(34);
-        comp.setUname("kiralikarac");
-        comp.setName("TOLGA OTO KİRALAMA");
-        comp.setPassword("1214");
 
-        return comp;
-    }
+
 
 }

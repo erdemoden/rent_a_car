@@ -7,6 +7,8 @@ import com.rentacar.model.Company;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CompanyGUI extends JFrame {
     private JPanel wrapper;
@@ -26,6 +28,15 @@ public class CompanyGUI extends JFrame {
     private JLabel lbl_carType;
     private JTextField txtFld_carType;
     private JButton btn_addCar;
+    private JTextField txtFld_dailyPrice;
+    private JTextField txtFld_dateFirst;
+    private JTextField txtFld_dateLast;
+    private JComboBox cmbBx_cities;
+    private JPanel pnl_date;
+    private JPanel pnl_priceAndCity;
+    private JLabel lbl_dateAround;
+    private JLabel lbl_dailyPrice;
+    private JLabel lbl_city;
     private DefaultTableModel tblMdl_carList;   // tablonun stun başlıkları ve diğer değerleri için
     // private Object[] rowTitle_carList;
 
@@ -46,7 +57,7 @@ public class CompanyGUI extends JFrame {
         {
             // toblo başlıkları
             tblMdl_carList = new DefaultTableModel();
-            Object[] colTitle_carList = {"no", "Araç ID", "Marka", "Model", "Araç Tipi"};
+            Object[] colTitle_carList = {"no", "Araç ID", "Hizmet Şehri", "Marka", "Model", "Araç Tipi", "Günlük Fiyat", "Tarihinden..", "Tarihine"};
             tblMdl_carList.setColumnIdentifiers(colTitle_carList);
             // -tablo başlıkları
 
@@ -54,11 +65,16 @@ public class CompanyGUI extends JFrame {
             int i = 1;
             for(Cars car : Cars.getListByCompany(company.getId())){
                 Object[] row = new Object[colTitle_carList.length];
-                row[0] = i;
-                row[1] = car.getId();
-                row[2] = car.getBrand();
-                row[3] = car.getModel();
-                row[4] = car.getType();
+                int index = 0;
+                row[index++] = i;
+                row[index++] = car.getId();
+                row[index++] = car.getCity_id();
+                row[index++] = car.getBrand();
+                row[index++] = car.getModel();
+                row[index++] = car.getType();
+                row[index++] = car.getDaily_price();
+                row[index++] = car.getDate_first();
+                row[index++] = car.getDate_last();
                 tblMdl_carList.addRow(row);
                 i++;
             }
@@ -68,5 +84,23 @@ public class CompanyGUI extends JFrame {
         }
         // -model Car List için title oluşturuldu
 
+
+        btn_addCar.addActionListener(e -> {
+            int company_id = company.getId();
+            int city_id = 34;
+            String brand = txtFld_carBrand.getText();
+            String model = txtFld_carModel.getText();
+            String type = txtFld_carType.getText();
+            double price = Double.parseDouble(txtFld_dailyPrice.getText());
+            String dateFirst = txtFld_dateFirst.getText();
+            String dateLast = txtFld_dateLast.getText();
+            boolean result = Cars.addByCompany(company_id,city_id,brand,model,type,price,dateFirst,dateLast);
+            if(!result){
+                Tool.showDialog("error");
+            }else {
+                Tool.showDialog("done");
+                // carList 'i yanile
+            }
+        });
     }
 }

@@ -84,12 +84,15 @@ public class Tool {
                 title = "Uyarı";
                 break;
             case "done" :
-                msg = "İşlem Başarılı";
-                title = "Başarılı";
+                msg = "Yaptığınız işlem başarılı şekilde gerçekleşti.";
+                title = "Sonuç";
                 break;
+            case "error" :
+                msg = "Yaptığınız işlemlerde bir hata var. Düzeltip tekrar deneyiniz!";
+                title = "HATA";
             case "wrong_info" :
                 msg = "Yanlış veya hatalı giriş yaptınız. Bilgilerinizi kontrol edin.";
-                title = "Hata";
+                title = "Hatalı İşlem";
                 break;
             default:
                 msg = info;
