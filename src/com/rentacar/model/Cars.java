@@ -108,7 +108,9 @@ public class Cars {
     //---------------------------------------------------------------------------------------------------------------
     public static ArrayList<Cars> getListByCompany(int company_id){
         ArrayList<Cars> carList = new ArrayList<>();
-        String sql = "SELECT id, city_id, brand, model, type, daily_price, date_first, date_last FROM cars WHERE company_id="+ company_id +"";
+        String sql = "SELECT id, city_id, brand, model, type, daily_price, date_first, date_last " +
+                "FROM cars " +
+                "WHERE company_id="+ company_id + " ORDER BY id DESC";
 
         try {
             Statement st = DB.connect().createStatement();

@@ -21,7 +21,7 @@ public class RegisterCustomerGUI extends JFrame {
         {
             setContentPane(wrapper);
             setTitle(Config.APP_TITLE);
-            setSize(700,500);
+            setSize(400,450);
             setLocation(Tool.screenCenterAxis("x",getSize()), Tool.screenCenterAxis("y", getSize()));
             setVisible(true);
         }

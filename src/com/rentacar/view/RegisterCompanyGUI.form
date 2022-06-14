@@ -47,7 +47,7 @@
               <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
             </constraints>
           </vspacer>
-          <component id="8a836" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+          <component id="8a836" class="javax.swing.JTextField" binding="txtFld_companyName">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -63,7 +63,7 @@
               <text value="Şirket Kullanıcı Adı"/>
             </properties>
           </component>
-          <component id="318f4" class="javax.swing.JTextField" binding="textField2" default-binding="true">
+          <component id="318f4" class="javax.swing.JTextField" binding="txtFld_uname">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -79,7 +79,7 @@
               <text value="Şifre"/>
             </properties>
           </component>
-          <component id="2b3f" class="javax.swing.JPasswordField" binding="passwordField1" default-binding="true">
+          <component id="2b3f" class="javax.swing.JPasswordField" binding="psswrdFld_pss">
             <constraints>
               <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -95,7 +95,7 @@
               <text value="Şifre Tekrar"/>
             </properties>
           </component>
-          <component id="e502c" class="javax.swing.JPasswordField" binding="passwordField2" default-binding="true">
+          <component id="e502c" class="javax.swing.JPasswordField" binding="psswrdFld_pssTry">
             <constraints>
               <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -111,11 +111,18 @@
               <text value="Şehriniz"/>
             </properties>
           </component>
-          <component id="ed9cc" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+          <component id="ed9cc" class="javax.swing.JComboBox" binding="cmbBx_city">
             <constraints>
               <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
-            <properties/>
+            <properties>
+              <model>
+                <item value="34"/>
+                <item value="35"/>
+                <item value="06"/>
+                <item value="61"/>
+              </model>
+            </properties>
           </component>
           <component id="101ba" class="javax.swing.JButton" binding="btn_register">
             <constraints>

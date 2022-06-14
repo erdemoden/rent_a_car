@@ -1,7 +1,9 @@
 package com.rentacar.model;
 
 import com.rentacar.db.DB;
+import com.rentacar.tool.Tool;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -90,7 +92,25 @@ public class Company {
         return null;
     }
 
-
+    public static boolean add(String uname, String password, String passwordTry, String name, int city_id){
+        boolean result = false;
+        if(password.equals(passwordTry)){
+            String sql = "INSERT INTO company (uname, password, name, city_id) VALUES (?,?,?,?)";
+            try {
+                PreparedStatement ps = DB.connect().prepareStatement(sql);
+                ps.setString(1,uname);
+                ps.setString(2,password);
+                ps.setString(3,name);
+                ps.setInt(4, city_id);
+                result = ps.executeUpdate() != -1;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }else{
+            Tool.showDialog("Şifreleriniz bir biri ile eşleşmiyor. Lütfen kontrol edip tekrar deneyin.");
+        }
+        return  result;
+    }
 
 
 }

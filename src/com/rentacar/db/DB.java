@@ -1,6 +1,7 @@
 package com.rentacar.db;
 
 import com.rentacar.tool.Config;
+import com.rentacar.tool.Tool;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,6 +14,8 @@ public class DB {
         try {
             this.connect = DriverManager.getConnection(Config.DB_URL, Config.DB_USER, Config.DB_PASSWORD);
         } catch (SQLException e) {
+            Tool.showDialog("Sunuculara bağlanırken hata oluştu. Veri tabanı bilgilerinizi kontrol edin!\n\n" +
+                    "Sistemden Gelen Hata: " + e.getMessage() );
             e.printStackTrace();
         }
         return this.connect;
