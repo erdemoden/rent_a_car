@@ -60,7 +60,8 @@ public class LoginGUI extends JFrame{
                         CompanyGUI companyGUI = new CompanyGUI(company);
                     }
                 }else if(Config.USER_CUSTOMER == cmbBx_loginType.getSelectedItem().toString()){
-                    Tool.showDialog("MÜŞTERİ EKRANI");
+                    // Müşeri girişi
+                    CustomerGUI customerGUI = new CustomerGUI();
                 }else{
                     Tool.showDialog("Bu Kullanıcı Türü Bulunamadı");
                 }

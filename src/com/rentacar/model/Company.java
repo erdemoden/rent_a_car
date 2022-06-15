@@ -107,7 +107,7 @@ public class Company {
                 throw new RuntimeException(e);
             }
         }else{
-            Tool.showDialog("Şifreleriniz bir biri ile eşleşmiyor. Lütfen kontrol edip tekrar deneyin.");
+            Tool.showDialog("not_equal_pass");
         }
         return  result;
     }

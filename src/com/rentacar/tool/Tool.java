@@ -98,6 +98,10 @@ public class Tool {
                 msg = "Kayıt işleminizi gerçekleştiremedik. Lütfen Tekrar deneyin";
                 title = "HATA";
                 break;
+            case "not_equal_pass":
+                msg = "Şifreleriniz bir biri ile eşleşmiyor. Lütfen kontrol edip tekrar deneyin.";
+                title = "Şifreler Uyuşmuyor";
+                break;
             default:
                 msg = info;
         }
