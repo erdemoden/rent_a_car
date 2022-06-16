@@ -4,7 +4,9 @@ import com.rentacar.db.DB;
 import com.rentacar.tool.Tool;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Customer {
     private int id;
@@ -14,6 +16,27 @@ public class Customer {
     private String surname;
 
     public Customer(){}
+
+    public static Customer setCustomer(String uname, String pass) {
+        String sql = "SELECT * FROM customer WHERE uname = '"+uname+"' AND password = '" + pass +"'";
+        Customer customer;
+        try {
+            Statement st = DB.connect().createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            if(rs.next()){
+                customer = new Customer();
+                customer.setId(rs.getInt("id"));
+                customer.setUname(rs.getString("uname"));
+                customer.setPassword(rs.getString("password"));
+                customer.setName(rs.getString("name"));
+                customer.setSurname(rs.getString("surname"));
+                return customer;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
 
     public int getId() {
         return id;

@@ -7,6 +7,8 @@ import com.rentacar.model.Company;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CompanyGUI extends JFrame {
     private JPanel wrapper;
@@ -34,24 +36,27 @@ public class CompanyGUI extends JFrame {
     private JLabel lbl_dateAround;
     private JLabel lbl_dailyPrice;
     private JLabel lbl_city;
+    private JLabel lbl_uname;
     private DefaultTableModel tblMdl_carList;   // tablonun stun başlıkları ve diğer değerleri için
 
     public CompanyGUI(Company company) {
         // +pencere yapılandırmsı
         {
             lbl_companyTitle.setText(company.getName());
+            lbl_uname.setText("@"+company.getUname());
             setContentPane(wrapper);
             setSize(750,500);
             setTitle(Config.APP_TITLE);
             setLocation(Tool.screenCenterAxis("x",getSize()), Tool.screenCenterAxis("y", getSize()));
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             setVisible(true);
+            // +model Car List için title oluşturuldu
+            loadCarsToTable(company);
+            // -model Car List için title oluşturuldu
         }
         // -pencere yapılandırmsı
 
-        // +model Car List için title oluşturuldu
-        loadCarsToTable(company);
-        // -model Car List için title oluşturuldu
+
 
         // +arac Ekle
         btn_addCar.addActionListener(e -> {
@@ -83,8 +88,17 @@ public class CompanyGUI extends JFrame {
             }
         });
         // -arac Ekle
+
+        // çıkış
+        btn_exit.addActionListener(e -> {
+            this.dispose();
+        });
+        //-çıkış
     }
 
+
+
+    // METODS
     private void loadCarsToTable(Company company){
         // toblo başlıkları
         tblMdl_carList = new DefaultTableModel();
@@ -113,4 +127,6 @@ public class CompanyGUI extends JFrame {
         tbl_carList.getTableHeader().setReorderingAllowed(false);
         // -Sirketin arabaları
     }
+
+
 }

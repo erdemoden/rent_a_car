@@ -1,6 +1,7 @@
 package com.rentacar.view;
 
 
+import com.rentacar.model.Customer;
 import com.rentacar.tool.Config;
 import com.rentacar.tool.Tool;
 import com.rentacar.model.Company;
@@ -61,7 +62,12 @@ public class LoginGUI extends JFrame{
                     }
                 }else if(Config.USER_CUSTOMER == cmbBx_loginType.getSelectedItem().toString()){
                     // Müşeri girişi
-                    CustomerGUI customerGUI = new CustomerGUI();
+                    Customer customer = Customer.setCustomer(txtFld_uname.getText(), psswrdFld_password.getText());
+                    if(customer == null){
+                        Tool.showDialog("wrong_info");
+                    } else if(customer != null){
+                        CustomerGUI customerGUI = new CustomerGUI(customer);
+                    }
                 }else{
                     Tool.showDialog("Bu Kullanıcı Türü Bulunamadı");
                 }
