@@ -7,8 +7,6 @@ import com.rentacar.model.Company;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class CompanyGUI extends JFrame {
     private JPanel wrapper;
@@ -37,6 +35,9 @@ public class CompanyGUI extends JFrame {
     private JLabel lbl_dailyPrice;
     private JLabel lbl_city;
     private JLabel lbl_uname;
+    private JComboBox comboBox1;
+    private JPanel pnl_reserveCars;
+    private JTable tbl_reserveCars;
     private DefaultTableModel tblMdl_carList;   // tablonun stun başlıkları ve diğer değerleri için
 
     public CompanyGUI(Company company) {

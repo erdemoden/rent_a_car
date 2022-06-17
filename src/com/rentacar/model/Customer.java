@@ -98,4 +98,20 @@ public class Customer {
         }
         return result;
     }
+
+    public static int totalCustomer(){
+        int total = 0;
+        String sql = "SELECT COUNT(*) FROM customer";
+        try {
+            Statement st = DB.connect().createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            if(rs.next()){
+                total = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return total;
+    }
 }

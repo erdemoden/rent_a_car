@@ -223,4 +223,19 @@ public class Cars {
         }
         return result;
     }
+
+    public static int totalCars(){
+        int total = 0;
+        String sql = "SELECT COUNT(*) FROM cars";
+        try {
+            Statement st = DB.connect().createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            if(rs.next()){
+                total = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return total;
+    }
 }

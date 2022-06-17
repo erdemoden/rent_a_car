@@ -19,18 +19,24 @@ public class CustomerGUI extends JFrame{
     private JTabbedPane tbbdPn_customer;
     private JPanel pnl_rentalCars;
     private JTable tbl_rentalCars;
-    private JPanel pnl_city;
-    private JPanel pnl_car;
-    private JPanel pnl_date;
     private JLabel lbl_cityID;
     private JComboBox comboBox1;
     private JTextField TOGGTextField;
-    private JTextField sTextField;
+    private JTextField docatoTextField;
     private JTextField a20220601TextField;
     private JTextField a20220626TextField;
-    private JButton aracıAraButton;
+    private JButton araçAraButton;
     private JPanel pnl_search;
     private JLabel lbl_carSearch;
+    private JPanel pnl_side;
+    private JPanel pnl_reserve;
+    private JButton rezerveEtButton;
+    private JTextField araçTextField;
+    private JPanel pnl_reserveCar;
+    private JTable tbl_reserveCars;
+    private JPanel pnl_sideReserve;
+    private JTextField araçTextField1;
+    private JButton iptalButton;
     private DefaultTableModel tblMdl_rentalCars;
 
 
@@ -40,7 +46,7 @@ public class CustomerGUI extends JFrame{
             lbl_customer.setText(customer.getName().toUpperCase() + " " + customer.getSurname().toUpperCase());
             lbl_uname.setText("@"+customer.getUname());
             setContentPane(wrapper);
-            setSize(750,500);
+            setSize(1080,675);
             setTitle(Config.APP_TITLE);
             setLocation(Tool.screenCenterAxis("x",getSize()), Tool.screenCenterAxis("y", getSize()));
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

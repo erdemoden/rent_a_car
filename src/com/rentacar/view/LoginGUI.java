@@ -1,14 +1,13 @@
 package com.rentacar.view;
 
 
+import com.rentacar.model.Cars;
 import com.rentacar.model.Customer;
 import com.rentacar.tool.Config;
 import com.rentacar.tool.Tool;
 import com.rentacar.model.Company;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class LoginGUI extends JFrame{
     private JPanel wrapper;
@@ -25,6 +24,8 @@ public class LoginGUI extends JFrame{
     private JButton btn_registerCompany;
     private JButton btn_registerCustomer;
     private JPanel pnl_register;
+    private JLabel lbl_info;
+    private JLabel lbl_info2;
     private JRadioButton rdBtn_customer;
     private JRadioButton rdBtn_company;
 
@@ -42,6 +43,10 @@ public class LoginGUI extends JFrame{
             // setLocationRelativeTo(null);  //ekran ORTALA
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  // ekran kapanınca sonlandır.
             setVisible(true);
+            String info = Cars.totalCars() + " araç, " + Company.totalCompany() + " şirket ile hizmetinizdeyiz.";
+            String info2 = Customer.totalCustomer() + " değerli müşterimizin arasına sende katıl.";
+            lbl_info.setText(info);
+            lbl_info2.setText(info2);
             //pack();
         }
         // -Window Kısmı

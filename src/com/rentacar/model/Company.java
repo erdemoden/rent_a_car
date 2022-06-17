@@ -128,5 +128,19 @@ public class Company {
         return  result;
     }
 
+    public static int totalCompany(){
+        int total = 0;
+        String sql = "SELECT COUNT(*) FROM company";
+        try {
+            Statement st = DB.connect().createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            if(rs.next()){
+                total = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return total;
+    }
 
 }
