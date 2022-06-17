@@ -57,7 +57,6 @@ public class CompanyGUI extends JFrame {
         // -pencere yapılandırmsı
 
 
-
         // +arac Ekle
         btn_addCar.addActionListener(e -> {
             if(Tool.isFieldEmpty(txtFld_carBrand) || Tool.isFieldEmpty(txtFld_carModel) || Tool.isFieldEmpty(txtFld_carType) || Tool.isFieldEmpty(txtFld_dailyPrice) || Tool.isFieldEmpty(txtFld_dateFirst) || Tool.isFieldEmpty(txtFld_dateLast) ){
@@ -102,29 +101,32 @@ public class CompanyGUI extends JFrame {
     private void loadCarsToTable(Company company){
         // toblo başlıkları
         tblMdl_carList = new DefaultTableModel();
-        Object[] tableCarTitle = {"no", /*"Araç ID",*/ "Şehir", "Marka", "Model", "Araç Tipi", "Günlük Fiyat", "Tarihinden", "Tarihine"};
-        tblMdl_carList.setColumnIdentifiers(tableCarTitle);
+        Object[] colTitle = {"no", /*"Araç ID",*/ "Şehir", "Marka", "Model", "Araç Tipi", "Günlük Fiyat", "Tarihinden", "Tarihine", "Kiralık mı?"};
+        tblMdl_carList.setColumnIdentifiers(colTitle);
         // -tablo başlıkları
 
         // Şirketin arabaları
-        int i = 1;
+        int no = 1;
         for(Cars car : Cars.getListByCompany(company.getId())){
-            Object[] row = new Object[tableCarTitle.length];
-            int index = 0;
-            row[index++] = i;
-            //row[index++] = car.getId();
-            row[index++] = car.getCity_id();
-            row[index++] = car.getBrand();
-            row[index++] = car.getModel();
-            row[index++] = car.getType();
-            row[index++] = car.getDaily_price();
-            row[index++] = car.getDate_first();
-            row[index++] = car.getDate_last();
+            Object[] row = new Object[colTitle.length];
+            int i = 0;
+            row[i++] = no;
+            //row[i++] = car.getId();
+            row[i++] = car.getCity_id();
+            row[i++] = car.getBrand();
+            row[i++] = car.getModel();
+            row[i++] = car.getType();
+            row[i++] = car.getDaily_price();
+            row[i++] = car.getDate_first();
+            row[i++] = car.getDate_last();
+            row[i++] = car.getIs_rental();
             tblMdl_carList.addRow(row);
-            i++;
+            no++;
         }
         tbl_carList.setModel(tblMdl_carList);
         tbl_carList.getTableHeader().setReorderingAllowed(false);
+        tbl_carList.getColumnModel().getColumn(0).setPreferredWidth(10);
+        tbl_carList.getColumnModel().getColumn(1).setPreferredWidth(10);
         // -Sirketin arabaları
     }
 

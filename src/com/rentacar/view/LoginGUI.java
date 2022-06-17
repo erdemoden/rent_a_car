@@ -40,7 +40,7 @@ public class LoginGUI extends JFrame{
             setLocation(Tool.screenCenterAxis("x",getSize()), Tool.screenCenterAxis("y", getSize()));
 
             // setLocationRelativeTo(null);  //ekran ORTALA
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // ekran kapanınca sonlandır.
+            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  // ekran kapanınca sonlandır.
             setVisible(true);
             //pack();
         }

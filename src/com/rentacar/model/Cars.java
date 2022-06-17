@@ -18,10 +18,11 @@ public class Cars {
     private Double daily_price;
     private String date_first;
     private String date_last;
+    private boolean is_rental;
 
     public Cars(){};
 
-    public Cars(int id, int company_id, int city_id, String brand, String model, String type, Double daily_price, String date_first, String date_last) {
+    public Cars(int id, int company_id, int city_id, String brand, String model, String type, Double daily_price, String date_first, String date_last, boolean is_rental) {
         this.id = id;
         this.company_id = company_id;
         this.city_id = city_id;
@@ -31,6 +32,7 @@ public class Cars {
         this.daily_price = daily_price;
         this.date_first = date_first;
         this.date_last = date_last;
+        this.is_rental = is_rental;
     }
 
     public int getId() {
@@ -105,12 +107,21 @@ public class Cars {
         this.date_last = date_last;
     }
 
+    public boolean getIs_rental() {
+        return is_rental;
+    }
+
+    public void setIs_rental(boolean is_rental) {
+        this.is_rental = is_rental;
+    }
+
     //---------------------------------------------------------------------------------------------------------------
     public static ArrayList<Cars> getListByCompany(int company_id){
-        ArrayList<Cars> carList = new ArrayList<>();
-        String sql = "SELECT id, city_id, brand, model, type, daily_price, date_first, date_last " +
+        ArrayList<Cars> cars = new ArrayList<>();
+        String sql = "SELECT id, city_id, brand, model, type, daily_price, date_first, date_last, is_rental " +
                 "FROM cars " +
-                "WHERE company_id="+ company_id + " ORDER BY id DESC";
+                "WHERE company_id="+ company_id +
+                " ORDER BY id DESC";
 
         try {
             Statement st = DB.connect().createStatement();
@@ -126,13 +137,70 @@ public class Cars {
                 car.setDaily_price(rs.getDouble("daily_price"));
                 car.setDate_first(rs.getString("date_first"));
                 car.setDate_last(rs.getString("date_last"));
-                carList.add(car);
+                car.setIs_rental(rs.getBoolean("is_rental"));
+                cars.add(car);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return carList;
+        return cars;
     }
+
+    public static ArrayList<Cars> getAll(){
+        ArrayList<Cars> cars = new ArrayList<>();
+        String sql = "SELECT * FROM cars";
+        try {
+            PreparedStatement ps = DB.connect().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Cars car = new Cars();
+                car.setId(rs.getInt("id"));
+                car.setCompany_id(rs.getInt("company_id"));
+                car.setCity_id(rs.getInt("city_id"));
+                car.setBrand(rs.getString("brand"));
+                car.setModel(rs.getString("model"));
+                car.setType(rs.getString("type"));
+                car.setDaily_price(rs.getDouble("daily_price"));
+                car.setDate_first(rs.getString("date_first"));
+                car.setDate_last(rs.getString("date_last"));
+                car.setIs_rental(rs.getBoolean("is_rental"));
+                cars.add(car);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return cars;
+    }
+
+    /*
+    public static ArrayList<Object> getListForCustomer(){
+        ArrayList<Object> list = new ArrayList<>();
+        String sql = "SELECT company.name, cars.brand, cars.model, cars.type, cars.daily_price, city.name, cars.date_first, cars.date_last " +
+                "FROM cars " +
+                "INNER JOIN company ON cars.company_id = company.id " +
+                "INNER JOIN city ON cars.city_id = city.city_id " +
+                "WHERE cars.is_rental = true;";
+        try {
+            PreparedStatement ps = DB.connect().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            int no = 1;
+            while(rs.next()){
+                Object obj = new Object[8];
+                int i = 0;
+                obj[i++] = no;
+                obj[i++] = rs.getString("company.name");
+                list.add(obj);
+                no ++;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return list;
+    }
+    */
+
 
     public static boolean addByCompany(int company_id, int city_id, String brand, String model, String type, double daily_price, String date_first, String date_last){
         boolean result = false;

@@ -1,20 +1,37 @@
 package com.rentacar.view;
 
+import com.rentacar.model.Cars;
+import com.rentacar.model.City;
+import com.rentacar.model.Company;
 import com.rentacar.model.Customer;
 import com.rentacar.tool.Config;
 import com.rentacar.tool.Tool;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.table.DefaultTableModel;
 
 public class CustomerGUI extends JFrame{
     private JPanel wrapper;
     private JLabel lbl_customer;
     private JPanel pnl_top;
-    private JPanel pnl_middle;
     private JButton btn_exit;
     private JLabel lbl_uname;
+    private JTabbedPane tbbdPn_customer;
+    private JPanel pnl_rentalCars;
+    private JTable tbl_rentalCars;
+    private JPanel pnl_city;
+    private JPanel pnl_car;
+    private JPanel pnl_date;
+    private JLabel lbl_cityID;
+    private JComboBox comboBox1;
+    private JTextField TOGGTextField;
+    private JTextField sTextField;
+    private JTextField a20220601TextField;
+    private JTextField a20220626TextField;
+    private JButton aracıAraButton;
+    private JPanel pnl_search;
+    private JLabel lbl_carSearch;
+    private DefaultTableModel tblMdl_rentalCars;
 
 
     public CustomerGUI(Customer customer) {
@@ -28,13 +45,46 @@ public class CustomerGUI extends JFrame{
             setLocation(Tool.screenCenterAxis("x",getSize()), Tool.screenCenterAxis("y", getSize()));
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             setVisible(true);
+            loadCarsToTable();
         }
-
-
 
 
         btn_exit.addActionListener(e -> {
             this.dispose();
         });
+    }
+
+    public void loadCarsToTable(){
+        tblMdl_rentalCars = new DefaultTableModel();
+        Object[] colTitle = {"no","Şirket", "Marka", "Model", "Araç Tipi", "Günlük Kira", "Şehir", "Tarihinden", "Tarihine"};
+        tblMdl_rentalCars.setColumnIdentifiers(colTitle);
+
+        int no = 1;
+        for(Cars car : Cars.getAll()){
+            Object[] row = new Object[colTitle.length];
+            int i = 0;
+            row[i++] = no;
+            row[i++] = Company.getNameByID(car.getCompany_id());
+            row[i++] = car.getBrand();
+            row[i++] = car.getModel();
+            row[i++] = car.getType();
+            row[i++] = car.getDaily_price();
+            row[i++] = City.getName(car.getCity_id());
+            row[i++] = car.getDate_first();
+            row[i++] = car.getDate_last();
+            tblMdl_rentalCars.addRow(row);
+            no++;
+        }
+        tbl_rentalCars.setModel(tblMdl_rentalCars);
+        tbl_rentalCars.getTableHeader().setReorderingAllowed(false);
+        tbl_rentalCars.getColumnModel().getColumn(0).setMaxWidth(35);
+
+    }
+
+    public void AlterneLoadCarsToTable(){
+        tblMdl_rentalCars = new DefaultTableModel();
+        Object[] colTitle = {"no","Şirket", "Marka", "Model", "Araç Tipi", "Günlük Kira", "Şehir", "Tarihinden", "Tarihine"};
+        tblMdl_rentalCars.setColumnIdentifiers(colTitle);
+
     }
 }

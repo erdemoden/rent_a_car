@@ -92,6 +92,22 @@ public class Company {
         return null;
     }
 
+    public static String getNameByID(int id){
+        String name = null;
+        String sql = "SELECT name FROM company WHERE id = ?";
+        try {
+            PreparedStatement ps = DB.connect().prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()){
+                name = rs.getString("name");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return name;
+    }
+
     public static boolean add(String uname, String password, String passwordTry, String name, int city_id){
         boolean result = false;
         if(password.equals(passwordTry)){

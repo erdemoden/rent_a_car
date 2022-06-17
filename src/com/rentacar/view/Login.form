@@ -88,8 +88,8 @@
               <editable value="true"/>
               <enabled value="true"/>
               <model>
-                <item value="Şirket"/>
                 <item value="Müşteri"/>
+                <item value="Şirket"/>
               </model>
               <toolTipText value="Tola"/>
             </properties>
