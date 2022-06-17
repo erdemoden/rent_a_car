@@ -41,11 +41,7 @@ public class RegisterCustomerGUI extends JFrame {
                     result = Customer.add(fld_uname.getText(),fld_password.getText(),fld_name.getText(),fld_sname.getText());
                     if(result){
                         Tool.showDialog("done");
-                        fld_uname.setText(null);
-                        fld_password.setText(null);
-                        fld_passwordTry.setText(null);
-                        fld_name.setText(null);
-                        fld_sname.setText(null);
+                        this.dispose();
                     }else{
                         Tool.showDialog("error");
                     }

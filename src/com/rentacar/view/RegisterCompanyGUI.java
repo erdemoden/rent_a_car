@@ -41,10 +41,7 @@ public class RegisterCompanyGUI extends JFrame{
                         Integer.parseInt(cmbBx_city.getSelectedItem().toString()));
                 if(result){
                     Tool.showDialog("done");
-                    // Ekran kapatma komutunu bulamadım.
-                    setSize(0,0);
-                    setLocation(Toolkit.getDefaultToolkit().getScreenSize().width,
-                            Toolkit.getDefaultToolkit().getScreenSize().height);
+                    this.dispose();
                 }else{
                     Tool.showDialog("not_register");
                 }
