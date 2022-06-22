@@ -35,7 +35,7 @@ public class CompanyGUI extends JFrame {
     private JLabel lbl_dailyPrice;
     private JLabel lbl_city;
     private JLabel lbl_uname;
-    private JComboBox comboBox1;
+    private JComboBox cmbBx_isRental;
     private JPanel pnl_reserveCars;
     private JTable tbl_reserveCars;
     private DefaultTableModel tblMdl_carList;   // tablonun stun başlıkları ve diğer değerleri için
@@ -71,7 +71,8 @@ public class CompanyGUI extends JFrame {
                 double price = Double.parseDouble(txtFld_dailyPrice.getText());
                 String dateFirst = txtFld_dateFirst.getText();
                 String dateLast = txtFld_dateLast.getText();
-                boolean result = Cars.addByCompany(company_id,city_id,brand,model,type,price,dateFirst,dateLast);
+                boolean is_rental = cmbBx_isRental.getSelectedItem().toString() == "Tamam" ? true : false;
+                boolean result = Cars.addByCompany(company_id,city_id,brand,model,type,price,dateFirst,dateLast,is_rental);
                 if(!result){
                     Tool.showDialog("error");
                 }else {
@@ -105,6 +106,9 @@ public class CompanyGUI extends JFrame {
         Object[] colTitle = {"no", /*"Araç ID",*/ "Şehir", "Marka", "Model", "Araç Tipi", "Günlük Fiyat", "Tarihinden", "Tarihine", "Kiralık mı?"};
         tblMdl_carList.setColumnIdentifiers(colTitle);
         // -tablo başlıkları
+
+        // DefaultTableModel clearModel = (DefaultTableModel) tbl_carList.getModel();
+        // clearModel.setRowCount(0);  // tablo satırlarını siler
 
         // Şirketin arabaları
         int no = 1;

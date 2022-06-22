@@ -1,14 +1,13 @@
 package com.rentacar.view;
 
-import com.rentacar.model.Cars;
-import com.rentacar.model.City;
-import com.rentacar.model.Company;
-import com.rentacar.model.Customer;
+import com.rentacar.model.*;
 import com.rentacar.tool.Config;
 import com.rentacar.tool.Tool;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CustomerGUI extends JFrame{
     private JPanel wrapper;
@@ -23,20 +22,22 @@ public class CustomerGUI extends JFrame{
     private JComboBox comboBox1;
     private JTextField TOGGTextField;
     private JTextField docatoTextField;
-    private JTextField a20220601TextField;
-    private JTextField a20220626TextField;
+    private JTextField txtFld_fistDateSearch;
+    private JTextField txtFld_lastDateSearch;
     private JButton araçAraButton;
     private JPanel pnl_search;
     private JLabel lbl_carSearch;
     private JPanel pnl_side;
     private JPanel pnl_reserve;
-    private JButton rezerveEtButton;
-    private JTextField araçTextField;
+    private JTextField txtFld_carID;
     private JPanel pnl_reserveCar;
     private JTable tbl_reserveCars;
     private JPanel pnl_sideReserve;
     private JTextField araçTextField1;
     private JButton iptalButton;
+    private JTextField txtFld_firstDate;
+    private JTextField txtFld_lastDate;
+    private JButton btn_reserveMake;
     private DefaultTableModel tblMdl_rentalCars;
 
 
@@ -54,9 +55,27 @@ public class CustomerGUI extends JFrame{
             loadCarsToTable();
         }
 
-
         btn_exit.addActionListener(e -> {
             this.dispose();
+        });
+
+        btn_reserveMake.addActionListener(e -> {
+            boolean isAdd;
+            int id = Integer.parseInt(txtFld_carID.getText());
+            if(Tool.isFieldEmpty(txtFld_carID) || Tool.isFieldEmpty(txtFld_firstDate) || Tool.isFieldEmpty(txtFld_lastDate)){
+                Tool.showDialog("empty");
+            }else{
+                if(!txtFld_carID.getText().equals("0")){
+                    isAdd = RentalCars.add(id, customer.getId(), txtFld_firstDate.getText(), txtFld_lastDate.getText());
+                    if(!isAdd){
+                        Tool.showDialog("error");
+                    }else{
+                        Tool.showDialog("done");
+                    }
+                }else if(txtFld_carID.getText().equals("0")){
+                    Tool.showDialog("Lütfen rezervasyonunu yapmak istediğiniz aracı seçiniz.");
+                }
+            }
         });
     }
 
@@ -66,7 +85,7 @@ public class CustomerGUI extends JFrame{
         tblMdl_rentalCars.setColumnIdentifiers(colTitle);
 
         int no = 1;
-        for(Cars car : Cars.getAll()){
+        for(Cars car : Cars.getBeenRental()){
             Object[] row = new Object[colTitle.length];
             int i = 0;
             row[i++] = no;
@@ -87,10 +106,5 @@ public class CustomerGUI extends JFrame{
 
     }
 
-    public void AlterneLoadCarsToTable(){
-        tblMdl_rentalCars = new DefaultTableModel();
-        Object[] colTitle = {"no","Şirket", "Marka", "Model", "Araç Tipi", "Günlük Kira", "Şehir", "Tarihinden", "Tarihine"};
-        tblMdl_rentalCars.setColumnIdentifiers(colTitle);
 
-    }
 }
