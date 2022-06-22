@@ -5,6 +5,7 @@ import com.rentacar.db.DB;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class RentalCars {
     private int id;
@@ -106,22 +107,21 @@ public class RentalCars {
 
     public static boolean isReserved(int carID, String dateFirst, String dateLast){
         boolean result = false;
-        String sql = "SELECT * FROM rental_cars WHERE car_id = ? AND (date_first >= ? AND date_last <= ?)";
+        // rezerve edilmiş mi? Mantıksal yapısı
+        String sql = "SELECT * FROM rental_cars " +
+                "WHERE car_id = " + carID + " AND " +
+                "(date_first <= '" + dateFirst + "' AND date_last >= '" + dateFirst + "' OR " +
+                "date_first <= '" + dateLast + "' AND date_last >= '" + dateLast + "')";
         try {
-            PreparedStatement ps = DB.connect().prepareStatement(sql);
-            ps.setInt(1, carID);
-            ps.setString(2,dateFirst);
-            ps.setString(3,dateLast);
-            ResultSet rs = ps.executeQuery();
+            Statement ps = DB.connect().createStatement();
+            ResultSet rs = ps.executeQuery(sql);
             if(rs.next()){
                 // daha önce tarihler arasında reserve edilmiş
                 result = true;
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
-
-
         return result;
     }
 }

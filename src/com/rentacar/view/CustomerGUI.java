@@ -68,15 +68,21 @@ public class CustomerGUI extends JFrame{
                 Tool.showDialog("empty");
             }else{
                 if(!txtFld_carID.getText().equals("0")){
-                    if(RentalCars.isReserved(Integer.parseInt(txtFld_carID.getText()), txtFld_firstDate.getText(), txtFld_lastDate.getText())){
-                        Tool.showDialog("Seçtiğiniz araç belirlediğiniz tarihler arasında daha önce rezerve edilmiş." +
-                                " Başka tarih belirleyebilirisiiz");
+                    if(!Cars.isBetweenDates(Integer.parseInt(txtFld_carID.getText()), txtFld_firstDate.getText(), txtFld_lastDate.getText())){
+                        int companyID = Cars.fetchCompany(Integer.parseInt(txtFld_carID.getText()));
+                        String compName = Company.getNameByID(companyID);
+                        Tool.showDialog(compName + ", bu tarihler arasında aracını kiralamıyor! Lütfen uygun tarih giriniz");
                     }else{
-                        isAdd = RentalCars.add(id, customer.getId(), txtFld_firstDate.getText(), txtFld_lastDate.getText());
-                        if(!isAdd){
-                            Tool.showDialog("error");
+                        if(RentalCars.isReserved(Integer.parseInt(txtFld_carID.getText()), txtFld_firstDate.getText(), txtFld_lastDate.getText())){
+                            Tool.showDialog("Seçtiğiniz araç belirlediğiniz tarihler arasında, daha önce rezerve edilmiş." +
+                                    " Başka tarih belirleyebilirisiniz");
                         }else{
-                            Tool.showDialog("done");
+                            isAdd = RentalCars.add(id, customer.getId(), txtFld_firstDate.getText(), txtFld_lastDate.getText());
+                            if(!isAdd){
+                                Tool.showDialog("error");
+                            }else{
+                                Tool.showDialog("done");
+                            }
                         }
                     }
                 }else if(txtFld_carID.getText().equals("0")){

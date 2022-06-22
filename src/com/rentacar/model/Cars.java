@@ -35,6 +35,23 @@ public class Cars {
         this.is_rental = is_rental;
     }
 
+    public static boolean isBetweenDates(int car_id, String date_first, String date_last) {
+        boolean result = false;
+        String sql = "SELECT * FROM cars " +
+                "WHERE id = " + car_id + " AND " +
+                "(date_first <= '" + date_first + "' AND date_last >= '" + date_last + "')";
+        try {
+            Statement st = DB.connect().createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()){
+                result = true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
     public int getId() {
         return id;
     }
