@@ -3,6 +3,7 @@ package com.rentacar.model;
 import com.rentacar.db.DB;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class RentalCars {
@@ -100,6 +101,27 @@ public class RentalCars {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return result;
+    }
+
+    public static boolean isReserved(int carID, String dateFirst, String dateLast){
+        boolean result = false;
+        String sql = "SELECT * FROM rental_cars WHERE car_id = ? AND (date_first >= ? AND date_last <= ?)";
+        try {
+            PreparedStatement ps = DB.connect().prepareStatement(sql);
+            ps.setInt(1, carID);
+            ps.setString(2,dateFirst);
+            ps.setString(3,dateLast);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                // daha önce tarihler arasında reserve edilmiş
+                result = true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
         return result;
     }
 }

@@ -283,14 +283,14 @@ public class Cars {
     }
 
     public static Double fetchPrice(int car_id){
-        double result = 0;
+        double result = 0.0;
         String sql = "SELECT daily_price FROM cars WHERE id = ?";
         try {
             PreparedStatement ps = DB.connect().prepareStatement(sql);
             ps.setInt(1,car_id);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                result = rs.getInt("daily_price");
+                result = rs.getDouble("daily_price");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
