@@ -1,5 +1,6 @@
 package com.rentacar.view;
 
+import com.rentacar.model.City;
 import com.rentacar.model.Company;
 import com.rentacar.tool.Config;
 import com.rentacar.tool.Tool;
@@ -28,6 +29,10 @@ public class RegisterCompanyGUI extends JFrame{
             setTitle(Config.APP_TITLE);
             setLocation(Tool.screenCenterAxis("x",getSize()), Tool.screenCenterAxis("y", getSize()));
             setVisible(true);
+
+            for (String i : City.getIdAllString()){
+                cmbBx_city.addItem(i);
+            }
         }
 
         btn_register.addActionListener(e -> {

@@ -5,6 +5,7 @@ import com.rentacar.db.DB;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class City {
     private int id;
@@ -51,5 +52,13 @@ public class City {
             throw new RuntimeException(e);
         }
         return city.getName();
+    }
+
+    public static ArrayList<String> getIdAllString(){
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < 81; i++){
+            list.add(i, String.valueOf(i+1));
+        }
+        return list;
     }
 }

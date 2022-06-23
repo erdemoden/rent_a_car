@@ -1,6 +1,7 @@
 package com.rentacar.view;
 
 import com.rentacar.model.Cars;
+import com.rentacar.model.City;
 import com.rentacar.tool.Config;
 import com.rentacar.tool.Tool;
 import com.rentacar.model.Company;
@@ -54,6 +55,10 @@ public class CompanyGUI extends JFrame {
             // +model Car List için title oluşturuldu
             loadCarsToTable(company);
             // -model Car List için title oluşturuldu
+
+            for(String i : City.getIdAllString()){
+                cmbBx_cities.addItem(i);
+            }
         }
         // -pencere yapılandırmsı
 
