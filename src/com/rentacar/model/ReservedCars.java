@@ -6,8 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
-public class RentalCars {
+public class ReservedCars {
     private int id;
     private int car_id;
     private int company_id;
@@ -16,7 +17,14 @@ public class RentalCars {
     private String date_first;
     private String date_last;
 
-    public RentalCars(int id, int car_id, int company_id, int customer_id, double daily_price, String date_first, String date_last) {
+
+    // - listeleme için kolay kullanılsın diye FROM Company.class
+    public String customerName;
+    public String customerSurname;
+    public String companyName;
+
+    public ReservedCars(){};
+    public ReservedCars(int id, int car_id, int company_id, int customer_id, double daily_price, String date_first, String date_last) {
         this.id = id;
         this.car_id = car_id;
         this.company_id = company_id;
@@ -124,4 +132,60 @@ public class RentalCars {
         }
         return result;
     }
+
+
+    // --- Nasıl kulannılmalı ???????
+    public static ArrayList<ReservedCars> getListByCompany(Company company){
+        ArrayList<ReservedCars> rCars = new ArrayList<>();
+        String sql = "SELECT rental_cars.car_id, customer.name, customer.surname, " +
+                "rental_cars.daily_price, rental_cars.date_first, rental_cars.date_last " +
+                "FROM rental_cars " +
+                "INNER JOIN customer " +
+                "ON customer.id = rental_cars.customer_id " +
+                "WHERE company_id = " + company.getId() + "";
+        try {
+            Statement st = DB.connect().createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                ReservedCars rentalCar = new ReservedCars();
+                rentalCar.setCar_id(rs.getInt("car_id"));
+                rentalCar.customerName = rs.getString("name");
+                rentalCar.customerSurname = rs.getString("surname");
+                rentalCar.setDaily_price(rs.getDouble("daily_price"));
+                rentalCar.setDate_first(rs.getString("date_first"));
+                rentalCar.setDate_last(rs.getString("date_last"));
+                rCars.add(rentalCar);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return rCars;
+    }
+
+    public static ArrayList<ReservedCars> getListByCustomer(Customer customer) {
+        ArrayList<ReservedCars> rCars = new ArrayList<>();
+        String sql = "SELECT rental_cars.car_id, company.name, " +
+                "rental_cars.daily_price, rental_cars.date_first, rental_cars.date_last " +
+                "FROM rental_cars " +
+                "INNER JOIN company " +
+                "ON company.id = rental_cars.company_id " +
+                "WHERE customer_id = " + customer.getId() + "";
+        try {
+            Statement st = DB.connect().createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                ReservedCars rentalCar = new ReservedCars();
+                rentalCar.setCar_id(rs.getInt("car_id"));
+                rentalCar.companyName = rs.getString("name");
+                rentalCar.setDaily_price(rs.getDouble("daily_price"));
+                rentalCar.setDate_first(rs.getString("date_first"));
+                rentalCar.setDate_last(rs.getString("date_last"));
+                rCars.add(rentalCar);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return rCars;
+    }
+
 }

@@ -2,6 +2,7 @@ package com.rentacar.view;
 
 import com.rentacar.model.Cars;
 import com.rentacar.model.City;
+import com.rentacar.model.ReservedCars;
 import com.rentacar.tool.Config;
 import com.rentacar.tool.Tool;
 import com.rentacar.model.Company;
@@ -39,7 +40,10 @@ public class CompanyGUI extends JFrame {
     private JComboBox cmbBx_isRental;
     private JPanel pnl_reserveCars;
     private JTable tbl_reserveCars;
+    private JButton btn_refresh;
+    private JPanel pnl_etkilesimler;
     private DefaultTableModel tblMdl_carList;   // tablonun stun başlıkları ve diğer değerleri için
+    private DefaultTableModel tblMdl_reservedCarList;
 
     public CompanyGUI(Company company) {
         // +pencere yapılandırmsı
@@ -55,6 +59,7 @@ public class CompanyGUI extends JFrame {
             // +model Car List için title oluşturuldu
             loadCarsToTable(company);
             // -model Car List için title oluşturuldu
+            loadReservedCarsToTable(company);
 
             for(String i : City.getIdAllString()){
                 cmbBx_cities.addItem(i);
@@ -100,6 +105,11 @@ public class CompanyGUI extends JFrame {
             this.dispose();
         });
         //-çıkış
+
+        btn_refresh.addActionListener(e -> {
+            loadReservedCarsToTable(company);
+            loadCarsToTable(company);
+        });
     }
 
 
@@ -139,6 +149,32 @@ public class CompanyGUI extends JFrame {
         tbl_carList.getColumnModel().getColumn(1).setPreferredWidth(10);
         // -Sirketin arabaları
     }
+
+    public void loadReservedCarsToTable(Company company){
+        tblMdl_reservedCarList = new DefaultTableModel();
+        Object[] title = {"Sıra", "Araç ID", "Müşteri Adı", "Müşteri Soyadı", "Günlük Ücreti", "Tarihinden", "Tarihine"};
+        tblMdl_reservedCarList.setColumnIdentifiers(title);
+
+        int no = 1;
+        for(ReservedCars rCar : ReservedCars.getListByCompany(company)){
+            Object[] row = new Object[title.length];
+            int i = 0;
+            row[i++] = no;
+            row[i++] = rCar.getCar_id();
+            row[i++] = rCar.customerName;
+            row[i++] = rCar.customerSurname;
+            row[i++] = rCar.getDaily_price();
+            row[i++] = rCar.getDate_first();
+            row[i++] = rCar.getDate_last();
+            tblMdl_reservedCarList.addRow(row);
+            no++;
+        }
+        tbl_reserveCars.setModel(tblMdl_reservedCarList);
+        tbl_reserveCars.getTableHeader().setReorderingAllowed(false);
+        tbl_reserveCars.getColumnModel().getColumn(0).setPreferredWidth(10);
+        tbl_reserveCars.getColumnModel().getColumn(1).setPreferredWidth(10);
+    }
+
 
 
 }
