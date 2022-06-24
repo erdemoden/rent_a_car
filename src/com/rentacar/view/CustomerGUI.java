@@ -94,7 +94,7 @@ public class CustomerGUI extends JFrame{
 
         // kiralık araçlar listesi için tablo dinleyicisi
         tbl_rentalCars.getSelectionModel().addListSelectionListener(e -> {
-            String selectedCarID = tbl_rentalCars.getValueAt(tbl_rentalCars.getSelectedRow(), 1).toString();
+            String selectedCarID = tbl_rentalCars.getValueAt(tbl_rentalCars.getSelectedRow(), 0).toString();
             txtFld_carID.setText(selectedCarID);
         });
 
@@ -102,14 +102,13 @@ public class CustomerGUI extends JFrame{
 
     public void loadCarsToTable(){
         tblMdl_rentalCars = new DefaultTableModel();
-        Object[] colTitle = {"Sıra", "ID","Şirket", "Marka", "Model", "Araç Tipi", "Günlük Kira", "Şehir", "Tarihinden", "Tarihine"};
+        Object[] colTitle = {"ID","Şirket", "Marka", "Model", "Araç Tipi", "Günlük Kira", "Şehir", "Tarihinden", "Tarihine", "Sıra"};
         tblMdl_rentalCars.setColumnIdentifiers(colTitle);
 
         int no = 1;
         for(Cars car : Cars.getBeenRental()){
             Object[] row = new Object[colTitle.length];
             int i = 0;
-            row[i++] = no;
             row[i++] = car.getId();
             row[i++] = Company.getNameByID(car.getCompany_id());
             row[i++] = car.getBrand();
@@ -119,6 +118,7 @@ public class CustomerGUI extends JFrame{
             row[i++] = City.getName(car.getCity_id());
             row[i++] = car.getDate_first();
             row[i++] = car.getDate_last();
+            row[i++] = no;
             tblMdl_rentalCars.addRow(row);
             no++;
         }
@@ -130,19 +130,19 @@ public class CustomerGUI extends JFrame{
 
     public void loadReservedCarsToTable(Customer customer){
         tblMdl_reservedCars = new DefaultTableModel();
-        Object[] title = {"Sıra", "Araç ID", "Firma", "Günlük Fiyat", "Başlangıç Tarihi", "Bitiş Tarihi"};
+        Object[] title = {"ID Araç", "Firma", "Günlük Fiyat", "Başlangıç Tarihi", "Bitiş Tarihi", "Sıra"};
         tblMdl_reservedCars.setColumnIdentifiers(title);
 
         int no = 1;
         for(ReservedCars rCar : ReservedCars.getListByCustomer(customer)){
             Object[] row = new Object[title.length];
             int i = 0;
-            row[i++] = no;
             row[i++] = rCar.getCar_id();
             row[i++] = rCar.companyName;
             row[i++] = rCar.getDaily_price();
             row[i++] = rCar.getDate_first();
             row[i++] = rCar.getDate_last();
+            row[i++] = no;
             tblMdl_reservedCars.addRow(row);
             no++;
         }

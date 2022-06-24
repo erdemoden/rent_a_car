@@ -1,7 +1,9 @@
 package com.rentacar.model;
 
 import com.rentacar.db.DB;
+import com.rentacar.tool.Tool;
 
+import java.nio.channels.SelectableChannel;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -45,6 +47,62 @@ public class Cars {
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()){
                 result = true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    public static boolean doActive(int carID, int companyID) {
+        boolean result = false;
+        String sql2 = "SELECT * FROM cars WHERE id = " +carID+ " AND is_rental = 1 AND company_id = " + companyID;
+        try {
+            Statement st2 = DB.connect().createStatement();
+            ResultSet rs2 = st2.executeQuery(sql2);
+            if(!rs2.next()){
+                String sql = "UPDATE cars SET is_rental = '1' WHERE id = " + carID + " AND company_id = " + companyID;
+                try {
+                    Statement st = DB.connect().createStatement();
+                    int rs = st.executeUpdate(sql);
+                    if(rs != -1){
+                        result = true;
+                    }else{
+                        result = false;
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }else{
+                result = false;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    public static boolean doPassive(int carID, int companyID) {
+        boolean result = false;
+        String sql2 = "SELECT * FROM cars WHERE id = " +carID+ " AND is_rental = 0 AND company_id = " + companyID;
+        try {
+            Statement st2 = DB.connect().createStatement();
+            ResultSet rs2 = st2.executeQuery(sql2);
+            if(!rs2.next()){
+                String sql = "UPDATE cars SET is_rental = '0' WHERE id = " + carID + " AND company_id = " + companyID;
+                try {
+                    Statement st = DB.connect().createStatement();
+                    int rs = st.executeUpdate(sql);
+                    if(rs != -1){
+                        result = true;
+                    }else{
+                        result = false;
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }else{
+                result = false;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

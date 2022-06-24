@@ -42,6 +42,10 @@ public class CompanyGUI extends JFrame {
     private JTable tbl_reserveCars;
     private JButton btn_refresh;
     private JPanel pnl_etkilesimler;
+    private JTextField txtFld_carID;
+    private JButton btn_doActive;
+    private JButton btn_doPassive;
+    private JLabel lbl_carID;
     private DefaultTableModel tblMdl_carList;   // tablonun stun başlıkları ve diğer değerleri için
     private DefaultTableModel tblMdl_reservedCarList;
 
@@ -51,7 +55,7 @@ public class CompanyGUI extends JFrame {
             lbl_companyTitle.setText(company.getName());
             lbl_uname.setText("@"+company.getUname());
             setContentPane(wrapper);
-            setSize(750,500);
+            setSize(1080,675);
             setTitle(Config.APP_TITLE);
             setLocation(Tool.screenCenterAxis("x",getSize()), Tool.screenCenterAxis("y", getSize()));
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -66,6 +70,16 @@ public class CompanyGUI extends JFrame {
             }
         }
         // -pencere yapılandırmsı
+
+
+        // !!!!!!!!!!!!!!!!!!!!!! kiralık araçlar listesi için tablo dinleyicisi Fakat hata veriyor.
+        /*
+        tbl_carList.getSelectionModel().addListSelectionListener(e -> {
+            String selectedCarID = tbl_carList.getValueAt(tbl_carList.getSelectedRow(), 1).toString();
+            txtFld_carID.setText(selectedCarID);
+        });
+         */
+
 
 
         // +arac Ekle
@@ -110,7 +124,39 @@ public class CompanyGUI extends JFrame {
             loadReservedCarsToTable(company);
             loadCarsToTable(company);
         });
+
+        btn_doActive.addActionListener(e -> {
+            if(Tool.isFieldEmpty(txtFld_carID)){
+                Tool.showDialog("Lütfen aracı seçin.");
+            }else{
+                int carID = Integer.parseInt(txtFld_carID.getText());
+                if(Cars.doActive(carID, company.getId())){
+                    loadReservedCarsToTable(company);
+                    loadCarsToTable(company);
+                    Tool.showDialog("done");
+                }else{
+                    Tool.showDialog("Zaten müşteriler bu aracı görebiliyor. Aktif durumda.");
+                }
+            }
+        });
+
+
+        btn_doPassive.addActionListener(e -> {
+            if(Tool.isFieldEmpty(txtFld_carID)){
+                Tool.showDialog("Lütfen aracı seçin.");
+            }else{
+                int carID = Integer.parseInt(txtFld_carID.getText());
+                if(Cars.doPassive(carID, company.getId())){
+                    loadReservedCarsToTable(company);
+                    loadCarsToTable(company);
+                    Tool.showDialog("done");
+                }else{
+                    Tool.showDialog("Zaten müşteriler bu aracı göremiyor. Pasif durumda.");
+                }
+            }
+        });
     }
+
 
 
 
@@ -118,7 +164,7 @@ public class CompanyGUI extends JFrame {
     private void loadCarsToTable(Company company){
         // toblo başlıkları
         tblMdl_carList = new DefaultTableModel();
-        Object[] colTitle = {"no", /*"Araç ID",*/ "Şehir", "Marka", "Model", "Araç Tipi", "Günlük Fiyat", "Tarihinden", "Tarihine", "Kiralık mı?"};
+        Object[] colTitle = {"ID", "Şehir", "Marka", "Model", "Araç Tipi", "Günlük Fiyat", "Tarihinden", "Tarihine", "Kiralık mı?", "Sıra"};
         tblMdl_carList.setColumnIdentifiers(colTitle);
         // -tablo başlıkları
 
@@ -130,8 +176,7 @@ public class CompanyGUI extends JFrame {
         for(Cars car : Cars.getListByCompany(company.getId())){
             Object[] row = new Object[colTitle.length];
             int i = 0;
-            row[i++] = no;
-            //row[i++] = car.getId();
+            row[i++] = car.getId();
             row[i++] = car.getCity_id();
             row[i++] = car.getBrand();
             row[i++] = car.getModel();
@@ -140,6 +185,7 @@ public class CompanyGUI extends JFrame {
             row[i++] = car.getDate_first();
             row[i++] = car.getDate_last();
             row[i++] = car.getIs_rental();
+            row[i++] = no;
             tblMdl_carList.addRow(row);
             no++;
         }
@@ -152,20 +198,20 @@ public class CompanyGUI extends JFrame {
 
     public void loadReservedCarsToTable(Company company){
         tblMdl_reservedCarList = new DefaultTableModel();
-        Object[] title = {"Sıra", "Araç ID", "Müşteri Adı", "Müşteri Soyadı", "Günlük Ücreti", "Tarihinden", "Tarihine"};
+        Object[] title = {"ID Araç", "Müşteri Adı", "Müşteri Soyadı", "Günlük Ücreti", "Tarihinden", "Tarihine", "Sıra"};
         tblMdl_reservedCarList.setColumnIdentifiers(title);
 
         int no = 1;
         for(ReservedCars rCar : ReservedCars.getListByCompany(company)){
             Object[] row = new Object[title.length];
             int i = 0;
-            row[i++] = no;
             row[i++] = rCar.getCar_id();
             row[i++] = rCar.customerName;
             row[i++] = rCar.customerSurname;
             row[i++] = rCar.getDaily_price();
             row[i++] = rCar.getDate_first();
             row[i++] = rCar.getDate_last();
+            row[i++] = no;
             tblMdl_reservedCarList.addRow(row);
             no++;
         }
