@@ -1,6 +1,7 @@
 package com.rentacar.model;
 
 import com.rentacar.db.DB;
+import com.rentacar.tool.Tool;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,15 +39,34 @@ public class ReservedCars {
 
     public static boolean deleteReserve(int id) {
         boolean result = false;
-        String sql = "DELETE FROM rental_cars WHERE id = " + id +"";
+        String rentalDate = "1994-11-13";
+
+        String query = "SELECT date_first FROM rental_cars WHERE id = " + id;
         try {
-            Statement st = DB.connect().createStatement();
-            int rs = st.executeUpdate(sql);
-            if (rs != -1){
-                result = true;
+            Statement statement = DB.connect().createStatement();
+            ResultSet rst = statement.executeQuery(query);
+            if(rst.next()){
+                rentalDate = rst.getString("date_first");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+
+
+        int rst = Tool.getDate().compareTo(rentalDate);
+        if(rst >= 0){
+            result = false;
+        } else if (rst < 0) {
+            String sql = "DELETE FROM rental_cars WHERE id = " + id +"";
+            try {
+                Statement st = DB.connect().createStatement();
+                int rs = st.executeUpdate(sql);
+                if (rs != -1){
+                    result = true;
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
         return result;
     }

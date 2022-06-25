@@ -3,6 +3,8 @@ package com.rentacar.tool;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 // Oluşturulan Yardımcı fonksiyonlar
 public class Tool {
@@ -113,7 +115,12 @@ public class Tool {
         UIManager.put("OptionPane.okButtonText", "Tamam");
     }
 
-
+    public static String getDate(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String tarih = sdf.format(date);
+        return tarih;
+    }
 
 
 }

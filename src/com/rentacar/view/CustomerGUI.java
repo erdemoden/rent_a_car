@@ -40,6 +40,7 @@ public class CustomerGUI extends JFrame{
     private JTable tbl_rentalCars;
     private JTable tbl_reservedCars;
     private JButton btn_allCar;
+    private JButton btn_refresh;
     private DefaultTableModel tblMdl_rentalCars;
     private DefaultTableModel tblMdl_reservedCars;
 
@@ -136,11 +137,15 @@ public class CustomerGUI extends JFrame{
                 int id = Integer.parseInt(txtFld_deleteReserve.getText());
                 if(ReservedCars.deleteReserve(id)){
                     loadReservedCarsToTable(customer);
-                    Tool.showDialog("Silme işleminiz başarılı!");
+                    Tool.showDialog("Silme işleminizi başarılı şekilde gerçekleştirdik !");
                 }else{
-                    Tool.showDialog("Maalesef verilen taahhüt içerisinde olmadığınız için, iptal işleminiz gerçekleştirilmedi.");
+                    Tool.showDialog("Maalesef işleminizi gerçekleştiremiyoruz. İptalleri rezervasyon tarihinden 1 gün öncesine kadar iptal edebilirsiniz.");
                 }
             }
+        });
+        btn_refresh.addActionListener(e -> {
+            loadReservedCarsToTable(customer);
+            loadCarsToTable();
         });
     }
 
