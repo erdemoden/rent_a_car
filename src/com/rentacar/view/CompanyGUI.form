@@ -66,7 +66,7 @@
                       </grid>
                     </constraints>
                     <properties>
-                      <enabled value="true"/>
+                      <enabled value="false"/>
                     </properties>
                   </component>
                   <grid id="ba330" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

@@ -72,13 +72,17 @@ public class CompanyGUI extends JFrame {
         // -pencere yapılandırmsı
 
 
-        // !!!!!!!!!!!!!!!!!!!!!! kiralık araçlar listesi için tablo dinleyicisi Fakat hata veriyor.
-        /*
+
+
         tbl_carList.getSelectionModel().addListSelectionListener(e -> {
-            String selectedCarID = tbl_carList.getValueAt(tbl_carList.getSelectedRow(), 1).toString();
-            txtFld_carID.setText(selectedCarID);
+            try{
+                String selectedCarID = tbl_carList.getValueAt(tbl_carList.getSelectedRow(), 0).toString();
+                txtFld_carID.setText(selectedCarID);
+            }catch (Exception exception){
+                System.out.println("Kontrollü hata: " + exception.getMessage());
+            }
         });
-         */
+
 
 
 

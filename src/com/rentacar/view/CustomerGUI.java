@@ -32,8 +32,8 @@ public class CustomerGUI extends JFrame{
     private JTextField txtFld_carID;
     private JPanel pnl_reserveCar;
     private JPanel pnl_sideReserve;
-    private JTextField araçTextField1;
-    private JButton iptalButton;
+    private JTextField txtFld_deleteReserve;
+    private JButton btn_deleteReserve;
     private JTextField txtFld_firstDate;
     private JTextField txtFld_lastDate;
     private JButton btn_reserveMake;
@@ -99,8 +99,21 @@ public class CustomerGUI extends JFrame{
 
         // kiralık araçlar listesi için tablo dinleyicisi
         tbl_rentalCars.getSelectionModel().addListSelectionListener(e -> {
-            String selectedCarID = tbl_rentalCars.getValueAt(tbl_rentalCars.getSelectedRow(), 0).toString();
-            txtFld_carID.setText(selectedCarID);
+            try{
+                String selectedCarID = tbl_rentalCars.getValueAt(tbl_rentalCars.getSelectedRow(), 0).toString();
+                txtFld_carID.setText(selectedCarID);
+            }catch(Exception exception){
+                System.out.println("Kontrollü: " + exception.getMessage());
+            }
+        });
+
+        tbl_reservedCars.getSelectionModel().addListSelectionListener(e -> {
+            try{
+                String selectCarID = tbl_reservedCars.getValueAt(tbl_reservedCars.getSelectedRow(), 0).toString();
+                txtFld_deleteReserve.setText(selectCarID);
+            }catch(Exception exception){
+                System.out.println("Kotrollü: " + exception.getMessage());
+            }
         });
 
         btn_search.addActionListener(e -> {
@@ -115,6 +128,19 @@ public class CustomerGUI extends JFrame{
         });
         btn_allCar.addActionListener(e -> {
             loadCarsToTable();
+        });
+        btn_deleteReserve.addActionListener(e -> {
+            if(Tool.isFieldEmpty(txtFld_deleteReserve)){
+                Tool.showDialog("Lütfen Aracı seçin");
+            }else{
+                int id = Integer.parseInt(txtFld_deleteReserve.getText());
+                if(ReservedCars.deleteReserve(id)){
+                    loadReservedCarsToTable(customer);
+                    Tool.showDialog("Silme işleminiz başarılı!");
+                }else{
+                    Tool.showDialog("Maalesef verilen taahhüt içerisinde olmadığınız için, iptal işleminiz gerçekleştirilmedi.");
+                }
+            }
         });
     }
 
@@ -176,13 +202,14 @@ public class CustomerGUI extends JFrame{
 
     public void loadReservedCarsToTable(Customer customer){
         tblMdl_reservedCars = new DefaultTableModel();
-        Object[] title = {"Araç ID", "Firma",  "Araç", "Günlük Fiyat", "Başlangıç Tarihi", "Bitiş Tarihi", "Sıra"};
+        Object[] title = {"ID", "Araç ID", "Firma",  "Araç", "Günlük Fiyat", "Başlangıç Tarihi", "Bitiş Tarihi", "Sıra"};
         tblMdl_reservedCars.setColumnIdentifiers(title);
 
         int no = 1;
         for(ReservedCars rCar : ReservedCars.getListByCustomer(customer)){
             Object[] row = new Object[title.length];
             int i = 0;
+            row[i++] = rCar.getId();
             row[i++] = rCar.getCar_id();
             row[i++] = rCar.companyName;
             row[i++] = Cars.getName(rCar.getCar_id());
@@ -195,7 +222,8 @@ public class CustomerGUI extends JFrame{
         }
         tbl_reservedCars.setModel(tblMdl_reservedCars);
         tbl_reservedCars.getTableHeader().setReorderingAllowed(false);
-        tbl_reservedCars.getColumnModel().getColumn(0).setPreferredWidth(50);
+        tbl_reservedCars.getColumnModel().getColumn(0).setPreferredWidth(20);
+        tbl_reservedCars.getColumnModel().getColumn(1).setPreferredWidth(50);
         tbl_reservedCars.getColumnModel().getColumn(title.length-1).setPreferredWidth(50);
     }
 

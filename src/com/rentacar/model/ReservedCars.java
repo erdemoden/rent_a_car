@@ -36,6 +36,21 @@ public class ReservedCars {
         this.carName = carName;
     }
 
+    public static boolean deleteReserve(int id) {
+        boolean result = false;
+        String sql = "DELETE FROM rental_cars WHERE id = " + id +"";
+        try {
+            Statement st = DB.connect().createStatement();
+            int rs = st.executeUpdate(sql);
+            if (rs != -1){
+                result = true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
     public int getId() {
         return id;
     }
@@ -174,7 +189,7 @@ public class ReservedCars {
 
     public static ArrayList<ReservedCars> getListByCustomer(Customer customer) {
         ArrayList<ReservedCars> rCars = new ArrayList<>();
-        String sql = "SELECT rental_cars.car_id, company.name, " +
+        String sql = "SELECT rental_cars.id, rental_cars.car_id, company.name, " +
                 "rental_cars.daily_price, rental_cars.date_first, rental_cars.date_last " +
                 "FROM rental_cars " +
                 "INNER JOIN company " +
@@ -185,6 +200,7 @@ public class ReservedCars {
             ResultSet rs = st.executeQuery(sql);
             while(rs.next()){
                 ReservedCars rentalCar = new ReservedCars();
+                rentalCar.setId(rs.getInt("id"));
                 rentalCar.setCar_id(rs.getInt("car_id"));
                 // car name
                 rentalCar.setCarName(Cars.getName(rs.getInt("car_id")));
