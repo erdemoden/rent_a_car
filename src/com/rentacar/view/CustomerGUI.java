@@ -120,7 +120,7 @@ public class CustomerGUI extends JFrame{
 
     public void loadCarsToTable(){
         tblMdl_rentalCars = new DefaultTableModel();
-        Object[] colTitle = {"ID","Şirket", "Marka", "Model", "Araç Tipi", "Günlük Kira", "Şehir", "Tarihinden", "Tarihine", "Sıra"};
+        Object[] colTitle = {"Araç ID","Şirket", "Marka", "Model", "Araç Tipi", "Günlük Kira", "Şehir", "Tarihinden", "Tarihine", "Sıra"};
         tblMdl_rentalCars.setColumnIdentifiers(colTitle);
 
         int no = 1;
@@ -142,13 +142,13 @@ public class CustomerGUI extends JFrame{
         }
         tbl_rentalCars.setModel(tblMdl_rentalCars);
         tbl_rentalCars.getTableHeader().setReorderingAllowed(false);
-        tbl_rentalCars.getColumnModel().getColumn(0).setMaxWidth(30);
-        tbl_rentalCars.getColumnModel().getColumn(9).setMaxWidth(40);
+        tbl_rentalCars.getColumnModel().getColumn(0).setMaxWidth(50);
+        tbl_rentalCars.getColumnModel().getColumn(colTitle.length-1).setMaxWidth(50);
     }
 
     public void loadCarsToTable(ArrayList<Cars> cars){
         tblMdl_rentalCars = new DefaultTableModel();
-        Object[] colTitle = {"ID","Şirket", "Marka", "Model", "Araç Tipi", "Günlük Kira", "Şehir", "Tarihinden", "Tarihine", "Sıra"};
+        Object[] colTitle = {"Araç ID","Şirket", "Marka", "Model", "Araç Tipi", "Günlük Kira", "Şehir", "Tarihinden", "Tarihine", "Sıra"};
         tblMdl_rentalCars.setColumnIdentifiers(colTitle);
 
         int no = 1;
@@ -170,13 +170,13 @@ public class CustomerGUI extends JFrame{
         }
         tbl_rentalCars.setModel(tblMdl_rentalCars);
         tbl_rentalCars.getTableHeader().setReorderingAllowed(false);
-        tbl_rentalCars.getColumnModel().getColumn(0).setMaxWidth(30);
-        tbl_rentalCars.getColumnModel().getColumn(9).setMaxWidth(40);
+        tbl_rentalCars.getColumnModel().getColumn(0).setMaxWidth(50);
+        tbl_rentalCars.getColumnModel().getColumn(colTitle.length-1).setMaxWidth(50);
     }
 
     public void loadReservedCarsToTable(Customer customer){
         tblMdl_reservedCars = new DefaultTableModel();
-        Object[] title = {"ID Araç", "Firma",  "Araç", "Günlük Fiyat", "Başlangıç Tarihi", "Bitiş Tarihi", "Sıra"};
+        Object[] title = {"Araç ID", "Firma",  "Araç", "Günlük Fiyat", "Başlangıç Tarihi", "Bitiş Tarihi", "Sıra"};
         tblMdl_reservedCars.setColumnIdentifiers(title);
 
         int no = 1;
@@ -195,8 +195,8 @@ public class CustomerGUI extends JFrame{
         }
         tbl_reservedCars.setModel(tblMdl_reservedCars);
         tbl_reservedCars.getTableHeader().setReorderingAllowed(false);
-        tbl_reservedCars.getColumnModel().getColumn(0).setPreferredWidth(10);
-        tbl_reservedCars.getColumnModel().getColumn(1).setPreferredWidth(10);
+        tbl_reservedCars.getColumnModel().getColumn(0).setPreferredWidth(50);
+        tbl_reservedCars.getColumnModel().getColumn(title.length-1).setPreferredWidth(50);
     }
 
 

@@ -231,11 +231,29 @@ public class Cars {
 
     public static ArrayList<Cars> searchCarForCustomer(int cityID, String brand, String type, String dateF, String dateL) {
         ArrayList<Cars> cars = new ArrayList<>();
-        String sql = "SELECT id, company_id, city_id, brand, model, type, daily_price, date_first, date_last, is_rental "+
+        String sql = "";
+        String sql1 = "SELECT id, company_id, city_id, brand, model, type, daily_price, date_first, date_last, is_rental "+
                     "FROM cars "+
                     "WHERE (city_id = " + cityID + ") AND" +
                     "(brand LIKE '%"+ brand +"%')  AND "+
-                    "(type LIKE '%"+type+"%')" ;
+                    "(type LIKE '%"+type+"%') " ;
+        String sql2 = " AND (date_first >= '" + dateF + "')" ;
+        String sql3 = "  AND (date_last <= '" + dateL + "')";
+        if(dateF.equals("") && dateL.equals("")){
+            sql = sql1;
+            //System.out.println("1:" + sql);
+        }else if(!(dateF.equals("") || dateL.equals(""))){
+            sql= sql1 + sql2 + sql3;
+            //System.out.println("2: " + sql);
+        }else if(!dateF.equals("")){
+            sql = sql1 + sql2;
+            //System.out.println("3: " + sql);
+        }else if(!dateL.equals("")){
+            sql = sql1 + sql3;
+            //System.out.println("4: " + sql);
+        } else {
+            System.out.println("Beklenmeyen sorgu kombinasyonu!!!!");
+        }
         try {
             PreparedStatement st = DB.connect().prepareStatement(sql);
             /*
