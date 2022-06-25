@@ -236,7 +236,8 @@ public class Cars {
                     "FROM cars "+
                     "WHERE (city_id = " + cityID + ") AND" +
                     "(brand LIKE '%"+ brand +"%')  AND "+
-                    "(type LIKE '%"+type+"%') " ;
+                    "(type LIKE '%"+type+"%') AND " +
+                    "(is_rental = 1) ";
         String sql2 = " AND (date_first >= '" + dateF + "')" ;
         String sql3 = "  AND (date_last <= '" + dateL + "')";
         if(dateF.equals("") && dateL.equals("")){
