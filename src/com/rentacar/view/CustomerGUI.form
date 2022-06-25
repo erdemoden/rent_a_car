@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="wrapper" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="10" left="10" bottom="10" right="10"/>
     <constraints>
-      <xy x="20" y="20" width="865" height="759"/>
+      <xy x="20" y="20" width="865" height="795"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -97,7 +97,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <grid id="4a7ad" binding="pnl_search" layout-manager="GridLayoutManager" row-count="11" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="4a7ad" binding="pnl_search" layout-manager="GridLayoutManager" row-count="12" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -113,21 +113,19 @@
                           <text value="Şehir"/>
                         </properties>
                       </component>
-                      <component id="2025c" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+                      <component id="2025c" class="javax.swing.JComboBox" binding="cmbBx_cityID">
                         <constraints>
                           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
-                          <model>
-                            <item value="34"/>
-                            <item value="61"/>
-                            <item value="52"/>
-                          </model>
+                          <model/>
                         </properties>
                       </component>
                       <component id="dc37c" class="javax.swing.JLabel">
                         <constraints>
-                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="37" height="21"/>
+                          </grid>
                         </constraints>
                         <properties>
                           <text value="Marka"/>
@@ -141,14 +139,14 @@
                           <text value="Tipi"/>
                         </properties>
                       </component>
-                      <component id="aafed" class="javax.swing.JTextField" binding="docatoTextField" default-binding="true">
+                      <component id="aafed" class="javax.swing.JTextField" binding="txtFld_type">
                         <constraints>
                           <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
                         <properties>
-                          <text value="Docato"/>
+                          <text value=""/>
                         </properties>
                       </component>
                       <component id="9a488" class="javax.swing.JLabel">
@@ -159,7 +157,7 @@
                           <text value="Tarih Aralığı"/>
                         </properties>
                       </component>
-                      <component id="511a" class="javax.swing.JTextField" binding="txtFld_fistDateSearch">
+                      <component id="511a" class="javax.swing.JTextField" binding="txtFld_dateFirst">
                         <constraints>
                           <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
@@ -169,7 +167,7 @@
                           <text value="2022-06-01"/>
                         </properties>
                       </component>
-                      <component id="8ef8e" class="javax.swing.JTextField" binding="txtFld_lastDateSearch">
+                      <component id="8ef8e" class="javax.swing.JTextField" binding="txtFld_dateLast">
                         <constraints>
                           <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
@@ -179,7 +177,7 @@
                           <text value="2022-06-26"/>
                         </properties>
                       </component>
-                      <component id="60867" class="javax.swing.JButton" binding="araçAraButton" default-binding="true">
+                      <component id="60867" class="javax.swing.JButton" binding="btn_search">
                         <constraints>
                           <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -196,14 +194,22 @@
                           <text value="Uygun Aracı Ara"/>
                         </properties>
                       </component>
-                      <component id="bc5b7" class="javax.swing.JTextField" binding="TOGGTextField" default-binding="true">
+                      <component id="bc5b7" class="javax.swing.JTextField" binding="txtFld_brand">
                         <constraints>
                           <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
                         <properties>
-                          <text value="TOGG"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                      <component id="d83d3" class="javax.swing.JButton" binding="btn_allCar">
+                        <constraints>
+                          <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Tüm Araçları Gör"/>
                         </properties>
                       </component>
                     </children>

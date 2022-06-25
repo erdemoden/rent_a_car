@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class ReservedCars {
     private int id;
     private int car_id;
+    private String carName;
     private int company_id;
     private int customer_id;
     private double daily_price;
@@ -24,7 +25,7 @@ public class ReservedCars {
     public String companyName;
 
     public ReservedCars(){};
-    public ReservedCars(int id, int car_id, int company_id, int customer_id, double daily_price, String date_first, String date_last) {
+    public ReservedCars(int id, int car_id, int company_id, int customer_id, double daily_price, String date_first, String date_last, String carName) {
         this.id = id;
         this.car_id = car_id;
         this.company_id = company_id;
@@ -32,6 +33,7 @@ public class ReservedCars {
         this.daily_price = daily_price;
         this.date_first = date_first;
         this.date_last = date_last;
+        this.carName = carName;
     }
 
     public int getId() {
@@ -48,6 +50,14 @@ public class ReservedCars {
 
     public void setCar_id(int car_id) {
         this.car_id = car_id;
+    }
+
+    public String getCarName() {
+        return carName;
+    }
+
+    public void setCarName(String carName) {
+        this.carName = carName;
     }
 
     public int getCompany_id() {
@@ -176,6 +186,8 @@ public class ReservedCars {
             while(rs.next()){
                 ReservedCars rentalCar = new ReservedCars();
                 rentalCar.setCar_id(rs.getInt("car_id"));
+                // car name
+                rentalCar.setCarName(Cars.getName(rs.getInt("car_id")));
                 rentalCar.companyName = rs.getString("name");
                 rentalCar.setDaily_price(rs.getDouble("daily_price"));
                 rentalCar.setDate_first(rs.getString("date_first"));
@@ -187,5 +199,6 @@ public class ReservedCars {
         }
         return rCars;
     }
+
 
 }

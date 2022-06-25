@@ -1,9 +1,7 @@
 package com.rentacar.model;
 
 import com.rentacar.db.DB;
-import com.rentacar.tool.Tool;
 
-import java.nio.channels.SelectableChannel;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -54,55 +52,14 @@ public class Cars {
         return result;
     }
 
-    public static boolean doActive(int carID, int companyID) {
-        boolean result = false;
-        String sql2 = "SELECT * FROM cars WHERE id = " +carID+ " AND is_rental = 1 AND company_id = " + companyID;
+    public static String getName(int car_id) {
+        String result = "Araba Adı";
+        String sql = "SELECT brand FROM cars WHERE id =" + car_id;
         try {
-            Statement st2 = DB.connect().createStatement();
-            ResultSet rs2 = st2.executeQuery(sql2);
-            if(!rs2.next()){
-                String sql = "UPDATE cars SET is_rental = '1' WHERE id = " + carID + " AND company_id = " + companyID;
-                try {
-                    Statement st = DB.connect().createStatement();
-                    int rs = st.executeUpdate(sql);
-                    if(rs != -1){
-                        result = true;
-                    }else{
-                        result = false;
-                    }
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }else{
-                result = false;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return result;
-    }
-
-    public static boolean doPassive(int carID, int companyID) {
-        boolean result = false;
-        String sql2 = "SELECT * FROM cars WHERE id = " +carID+ " AND is_rental = 0 AND company_id = " + companyID;
-        try {
-            Statement st2 = DB.connect().createStatement();
-            ResultSet rs2 = st2.executeQuery(sql2);
-            if(!rs2.next()){
-                String sql = "UPDATE cars SET is_rental = '0' WHERE id = " + carID + " AND company_id = " + companyID;
-                try {
-                    Statement st = DB.connect().createStatement();
-                    int rs = st.executeUpdate(sql);
-                    if(rs != -1){
-                        result = true;
-                    }else{
-                        result = false;
-                    }
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }else{
-                result = false;
+            Statement st = DB.connect().createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()){
+                result = rs.getString("brand");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -195,8 +152,7 @@ public class Cars {
         ArrayList<Cars> cars = new ArrayList<>();
         String sql = "SELECT id, city_id, brand, model, type, daily_price, date_first, date_last, is_rental " +
                 "FROM cars " +
-                "WHERE company_id="+ company_id +
-                " ORDER BY id DESC";
+                "WHERE company_id="+ company_id ;
 
         try {
             Statement st = DB.connect().createStatement();
@@ -273,34 +229,98 @@ public class Cars {
         return cars;
     }
 
-    /*
-    public static ArrayList<Object> getListForCustomer(){
-        ArrayList<Object> list = new ArrayList<>();
-        String sql = "SELECT company.name, cars.brand, cars.model, cars.type, cars.daily_price, city.name, cars.date_first, cars.date_last " +
-                "FROM cars " +
-                "INNER JOIN company ON cars.company_id = company.id " +
-                "INNER JOIN city ON cars.city_id = city.city_id " +
-                "WHERE cars.is_rental = true;";
+    public static ArrayList<Cars> searchCarForCustomer(int cityID, String brand, String type, String dateF, String dateL) {
+        ArrayList<Cars> cars = new ArrayList<>();
+        String sql = "SELECT id, company_id, city_id, brand, model, type, daily_price, date_first, date_last, is_rental "+
+                    "FROM cars "+
+                    "WHERE (city_id = " + cityID + ") AND" +
+                    "(brand LIKE '%"+ brand +"%')  AND "+
+                    "(type LIKE '%"+type+"%')" ;
         try {
-            PreparedStatement ps = DB.connect().prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            int no = 1;
+            PreparedStatement st = DB.connect().prepareStatement(sql);
+            /*
+            st.setInt(1,cityID);
+            st.setString(2,brand);
+            st.setString(3, type);
+            */
+            ResultSet rs = st.executeQuery();
             while(rs.next()){
-                Object obj = new Object[8];
-                int i = 0;
-                obj[i++] = no;
-                obj[i++] = rs.getString("company.name");
-                list.add(obj);
-                no ++;
+                Cars car = new Cars();
+                car.setId(rs.getInt("id"));
+                car.setCompany_id(rs.getInt("company_id"));
+                car.setCity_id(rs.getInt("city_id"));
+                car.setBrand(rs.getString("brand"));
+                car.setModel(rs.getString("model"));
+                car.setType(rs.getString("type"));
+                car.setDaily_price(rs.getDouble("daily_price"));
+                car.setDate_first(rs.getString("date_first"));
+                car.setDate_last(rs.getString("date_last"));
+                car.setIs_rental(rs.getBoolean("is_rental"));
+                cars.add(car);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
-        return list;
+        return cars;
     }
-    */
+
+    public static boolean doActive(int carID, int companyID) {
+        boolean result = false;
+        String sql2 = "SELECT * FROM cars WHERE id = " +carID+ " AND is_rental = 1 AND company_id = " + companyID;
+        try {
+            Statement st2 = DB.connect().createStatement();
+            ResultSet rs2 = st2.executeQuery(sql2);
+            if(!rs2.next()){
+                String sql = "UPDATE cars SET is_rental = '1' WHERE id = " + carID + " AND company_id = " + companyID;
+                try {
+                    Statement st = DB.connect().createStatement();
+                    int rs = st.executeUpdate(sql);
+                    if(rs != -1){
+                        result = true;
+                    }else{
+                        result = false;
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }else{
+                result = false;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    public static boolean doPassive(int carID, int companyID) {
+        boolean result = false;
+        String sql2 = "SELECT * FROM cars WHERE id = " +carID+ " AND is_rental = 0 AND company_id = " + companyID;
+        try {
+            Statement st2 = DB.connect().createStatement();
+            ResultSet rs2 = st2.executeQuery(sql2);
+            if(!rs2.next()){
+                String sql = "UPDATE cars SET is_rental = '0' WHERE id = " + carID + " AND company_id = " + companyID;
+                try {
+                    Statement st = DB.connect().createStatement();
+                    int rs = st.executeUpdate(sql);
+                    if(rs != -1){
+                        result = true;
+                    }else{
+                        result = false;
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }else{
+                result = false;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+
 
 
     public static boolean addByCompany(int company_id, int city_id, String brand, String model, String type, double daily_price, String date_first, String date_last, Boolean is_rental){

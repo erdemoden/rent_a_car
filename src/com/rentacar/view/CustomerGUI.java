@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class CustomerGUI extends JFrame{
     private JPanel wrapper;
@@ -18,12 +19,12 @@ public class CustomerGUI extends JFrame{
     private JTabbedPane tbbdPn_customer;
     private JPanel pnl_rentalCars;
     private JLabel lbl_cityID;
-    private JComboBox comboBox1;
-    private JTextField TOGGTextField;
-    private JTextField docatoTextField;
-    private JTextField txtFld_fistDateSearch;
-    private JTextField txtFld_lastDateSearch;
-    private JButton araçAraButton;
+    private JComboBox cmbBx_cityID;
+    private JTextField txtFld_brand;
+    private JTextField txtFld_type;
+    private JTextField txtFld_dateFirst;
+    private JTextField txtFld_dateLast;
+    private JButton btn_search;
     private JPanel pnl_search;
     private JLabel lbl_carSearch;
     private JPanel pnl_side;
@@ -38,6 +39,7 @@ public class CustomerGUI extends JFrame{
     private JButton btn_reserveMake;
     private JTable tbl_rentalCars;
     private JTable tbl_reservedCars;
+    private JButton btn_allCar;
     private DefaultTableModel tblMdl_rentalCars;
     private DefaultTableModel tblMdl_reservedCars;
 
@@ -55,6 +57,9 @@ public class CustomerGUI extends JFrame{
             setVisible(true);
             loadCarsToTable();
             loadReservedCarsToTable(customer);
+            for(String i : City.getIdAllString()){
+                cmbBx_cityID.addItem(i);
+            }
         }
 
         btn_exit.addActionListener(e -> {
@@ -98,6 +103,19 @@ public class CustomerGUI extends JFrame{
             txtFld_carID.setText(selectedCarID);
         });
 
+        btn_search.addActionListener(e -> {
+            int cityID = Integer.parseInt(cmbBx_cityID.getSelectedItem().toString());
+            String brand = txtFld_brand.getText();
+            String type = txtFld_type.getText().trim();
+            String dateF = txtFld_dateFirst.getText().trim();
+            String dateL = txtFld_dateLast.getText().trim();
+
+            ArrayList<Cars> cars = Cars.searchCarForCustomer(cityID, brand, type, dateF, dateL);
+            loadCarsToTable(cars);
+        });
+        btn_allCar.addActionListener(e -> {
+            loadCarsToTable();
+        });
     }
 
     public void loadCarsToTable(){
@@ -125,12 +143,40 @@ public class CustomerGUI extends JFrame{
         tbl_rentalCars.setModel(tblMdl_rentalCars);
         tbl_rentalCars.getTableHeader().setReorderingAllowed(false);
         tbl_rentalCars.getColumnModel().getColumn(0).setMaxWidth(30);
-        tbl_rentalCars.getColumnModel().getColumn(1).setMaxWidth(40);
+        tbl_rentalCars.getColumnModel().getColumn(9).setMaxWidth(40);
+    }
+
+    public void loadCarsToTable(ArrayList<Cars> cars){
+        tblMdl_rentalCars = new DefaultTableModel();
+        Object[] colTitle = {"ID","Şirket", "Marka", "Model", "Araç Tipi", "Günlük Kira", "Şehir", "Tarihinden", "Tarihine", "Sıra"};
+        tblMdl_rentalCars.setColumnIdentifiers(colTitle);
+
+        int no = 1;
+        for(Cars car : cars){
+            Object[] row = new Object[colTitle.length];
+            int i = 0;
+            row[i++] = car.getId();
+            row[i++] = Company.getNameByID(car.getCompany_id());
+            row[i++] = car.getBrand();
+            row[i++] = car.getModel();
+            row[i++] = car.getType();
+            row[i++] = car.getDaily_price();
+            row[i++] = City.getName(car.getCity_id());
+            row[i++] = car.getDate_first();
+            row[i++] = car.getDate_last();
+            row[i++] = no;
+            tblMdl_rentalCars.addRow(row);
+            no++;
+        }
+        tbl_rentalCars.setModel(tblMdl_rentalCars);
+        tbl_rentalCars.getTableHeader().setReorderingAllowed(false);
+        tbl_rentalCars.getColumnModel().getColumn(0).setMaxWidth(30);
+        tbl_rentalCars.getColumnModel().getColumn(9).setMaxWidth(40);
     }
 
     public void loadReservedCarsToTable(Customer customer){
         tblMdl_reservedCars = new DefaultTableModel();
-        Object[] title = {"ID Araç", "Firma", "Günlük Fiyat", "Başlangıç Tarihi", "Bitiş Tarihi", "Sıra"};
+        Object[] title = {"ID Araç", "Firma",  "Araç", "Günlük Fiyat", "Başlangıç Tarihi", "Bitiş Tarihi", "Sıra"};
         tblMdl_reservedCars.setColumnIdentifiers(title);
 
         int no = 1;
@@ -139,6 +185,7 @@ public class CustomerGUI extends JFrame{
             int i = 0;
             row[i++] = rCar.getCar_id();
             row[i++] = rCar.companyName;
+            row[i++] = Cars.getName(rCar.getCar_id());
             row[i++] = rCar.getDaily_price();
             row[i++] = rCar.getDate_first();
             row[i++] = rCar.getDate_last();
