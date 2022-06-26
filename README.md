@@ -4,7 +4,7 @@ Have two login type. First login is person login and second login is company log
 You can look **DATA** relations and **Class** diagrms.
 
 ## Data Relations
-![](/asssets/img/data1.png)
+![](/asssets/img/data.png)
 
 ## Class Relations
 ![](/asssets/img/class.png)
