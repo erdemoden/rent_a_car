@@ -73,27 +73,34 @@ public class CustomerGUI extends JFrame{
             if(Tool.isFieldEmpty(txtFld_carID) || Tool.isFieldEmpty(txtFld_firstDate) || Tool.isFieldEmpty(txtFld_lastDate)){
                 Tool.showDialog("empty");
             }else{
-                if(txtFld_carID.getText().equals("0")){
-                    Tool.showDialog("Lütfen rezervasyonunu yapmak istediğiniz aracı seçiniz.");
-                }else if(!txtFld_carID.getText().equals("0")){
-                    if(!Cars.isBetweenDates(Integer.parseInt(txtFld_carID.getText()), txtFld_firstDate.getText(), txtFld_lastDate.getText())){
-                        int companyID = Cars.fetchCompany(Integer.parseInt(txtFld_carID.getText()));
-                        String compName = Company.getNameByID(companyID);
-                        Tool.showDialog(compName + ", bu tarihler arasında aracını kiralamıyor! Lütfen uygun tarih giriniz.");
-                    }else{
-                        if(ReservedCars.isReserved(Integer.parseInt(txtFld_carID.getText()), txtFld_firstDate.getText(), txtFld_lastDate.getText())){
-                            Tool.showDialog("Seçtiğiniz araç, belirlediğiniz tarihler arasında daha önce rezerve edilmiş." +
-                                    " Başka tarih belirleyebilirisiniz.");
+                String fd = txtFld_firstDate.getText().trim();
+                String ld = txtFld_lastDate.getText().trim();
+                int rst = fd.compareTo(ld);
+                if(rst <= 0){
+                    if(txtFld_carID.getText().equals("0")){
+                        Tool.showDialog("Lütfen rezervasyonunu yapmak istediğiniz aracı seçiniz.");
+                    }else if(!txtFld_carID.getText().equals("0")){
+                        if(!Cars.isBetweenDates(Integer.parseInt(txtFld_carID.getText()), txtFld_firstDate.getText(), txtFld_lastDate.getText())){
+                            int companyID = Cars.fetchCompany(Integer.parseInt(txtFld_carID.getText()));
+                            String compName = Company.getNameByID(companyID);
+                            Tool.showDialog(compName + ", bu tarihler arasında aracını kiralamıyor! Lütfen uygun tarih giriniz.");
                         }else{
-                            isAdd = ReservedCars.add(id, customer.getId(), txtFld_firstDate.getText(), txtFld_lastDate.getText());
-                            if(!isAdd){
-                                Tool.showDialog("error");
+                            if(ReservedCars.isReserved(Integer.parseInt(txtFld_carID.getText()), txtFld_firstDate.getText(), txtFld_lastDate.getText())){
+                                Tool.showDialog("Seçtiğiniz araç, belirlediğiniz tarihler arasında daha önce rezerve edilmiş." +
+                                        " Başka tarih belirleyebilirisiniz.");
                             }else{
-                                Tool.showDialog("done");
-                                loadReservedCarsToTable(customer);
+                                isAdd = ReservedCars.add(id, customer.getId(), txtFld_firstDate.getText(), txtFld_lastDate.getText());
+                                if(!isAdd){
+                                    Tool.showDialog("error");
+                                }else{
+                                    Tool.showDialog("done");
+                                    loadReservedCarsToTable(customer);
+                                }
                             }
                         }
                     }
+                } else {
+                    Tool.showDialog("Ilk tarih son tarihten büyük olamaz.");
                 }
             }
         });
@@ -124,8 +131,13 @@ public class CustomerGUI extends JFrame{
             String dateF = txtFld_dateFirst.getText().trim();
             String dateL = txtFld_dateLast.getText().trim();
 
-            ArrayList<Cars> cars = Cars.searchCarForCustomer(cityID, brand, type, dateF, dateL);
-            loadCarsToTable(cars);
+            int rst = dateF.compareTo(dateL);
+            if(rst <= 0){
+                ArrayList<Cars> cars = Cars.searchCarForCustomer(cityID, brand, type, dateF, dateL);
+                loadCarsToTable(cars);
+            }else {
+                Tool.showDialog("İlk tarih son tarihten büyük olamaz!");
+            }
         });
         btn_allCar.addActionListener(e -> {
             loadCarsToTable();

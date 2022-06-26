@@ -91,28 +91,33 @@ public class CompanyGUI extends JFrame {
             if(Tool.isFieldEmpty(txtFld_carBrand) || Tool.isFieldEmpty(txtFld_carModel) || Tool.isFieldEmpty(txtFld_carType) || Tool.isFieldEmpty(txtFld_dailyPrice) || Tool.isFieldEmpty(txtFld_dateFirst) || Tool.isFieldEmpty(txtFld_dateLast) ){
                 Tool.showDialog("empty");
             }else{
-                int company_id = company.getId();
-                int city_id = Integer.parseInt(cmbBx_cities.getSelectedItem().toString());
-                String brand = txtFld_carBrand.getText();
-                String model = txtFld_carModel.getText();
-                String type = txtFld_carType.getText();
-                double price = Double.parseDouble(txtFld_dailyPrice.getText());
-                String dateFirst = txtFld_dateFirst.getText();
-                String dateLast = txtFld_dateLast.getText();
-                boolean is_rental = cmbBx_isRental.getSelectedItem().toString() == "Tamam" ? true : false;
-                boolean result = Cars.addByCompany(company_id,city_id,brand,model,type,price,dateFirst,dateLast,is_rental);
-                if(!result){
-                    Tool.showDialog("error");
-                }else {
-                    Tool.showDialog("done");
-                    // carList 'i yanile
-                    loadCarsToTable(company);
-                    txtFld_carBrand.setText(null);
-                    txtFld_carModel.setText(null);
-                    txtFld_carType.setText(null);
-                    txtFld_dailyPrice.setText(null);
-                    txtFld_dateFirst.setText(null);
-                    txtFld_dateLast.setText(null);
+                int compare = txtFld_dateLast.getText().compareTo(txtFld_dateFirst.getText());
+                if(compare >= 0){
+                    int company_id = company.getId();
+                    int city_id = Integer.parseInt(cmbBx_cities.getSelectedItem().toString());
+                    String brand = txtFld_carBrand.getText();
+                    String model = txtFld_carModel.getText();
+                    String type = txtFld_carType.getText();
+                    double price = Double.parseDouble(txtFld_dailyPrice.getText());
+                    String dateFirst = txtFld_dateFirst.getText();
+                    String dateLast = txtFld_dateLast.getText();
+                    boolean is_rental = cmbBx_isRental.getSelectedItem().toString() == "Tamam" ? true : false;
+                    boolean result = Cars.addByCompany(company_id,city_id,brand,model,type,price,dateFirst,dateLast,is_rental);
+                    if(!result){
+                        Tool.showDialog("error");
+                    }else {
+                        Tool.showDialog("done");
+                        // carList 'i yanile
+                        loadCarsToTable(company);
+                        txtFld_carBrand.setText(null);
+                        txtFld_carModel.setText(null);
+                        txtFld_carType.setText(null);
+                        txtFld_dailyPrice.setText(null);
+                        txtFld_dateFirst.setText(null);
+                        txtFld_dateLast.setText(null);
+                    }
+                }else{
+                    Tool.showDialog("İlk tarih son tarihten büyük olamaz!");
                 }
             }
         });
